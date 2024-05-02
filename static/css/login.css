@@ -1,0 +1,143 @@
+body {
+    background-color: #E9E6E6; /* Set background color */
+    margin: 0; /* Remove default margin */
+    padding: 0; /* Remove default padding */
+  }
+  
+  .white-rectangle {
+    position: relative; /* Make the position relative for absolute positioning of triangle */
+    background-color: white; /* Set rectangle color */
+    width: 80%; /* Set rectangle width */
+    height: 80vh; /* Set rectangle height */
+    margin: 10vh auto; /* Center the rectangle vertically */
+    border-radius: 30px; /* Set border radius for curved edges */
+  }
+
+  .triangle {
+    position: absolute;
+    top: -10%;
+    right: -10%;
+    width: 0;
+    height: 0;
+    border-left: 35vw solid transparent; /* Adjust size of the triangle */
+    border-bottom: 35vw solid #28B4AC; /* Set color of the triangle */
+    transform: rotate(270deg); /* Rotate the triangle by 270 degrees */
+  }
+
+  h1 {
+    position: absolute;
+    top: 10%;
+    left: 10%;
+    color: #333; /* Set text color */
+    font-family: 'Roboto', sans-serif; /* Use Roboto font with fallback to sans-serif */
+    font-size: 2.5em; /* Set font size */
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0); /* Add text shadow */
+ }
+
+ form {
+    position: absolute;
+    top: 55%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%; /* Ensure the form spans the entire width */
+    text-align: center;
+  }
+
+ .email-input {
+    position: relative;
+    top: 45%; /* Adjust position as needed */
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 70%; /* Set width of the input container */
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .email-input label {
+    font-family: 'Roboto', sans-serif; /* Use Roboto font with fallback to sans-serif */
+    margin-bottom: 5px;
+    margin-left:-51%; /* Adjust position as needed */
+    font-size: 1.2em; /* Set font size for the label */
+    color: #333; /* Set text color for the label */
+    margin-bottom: 10px; /* Add margin bottom for spacing */
+  }
+  
+  .email-input input[type="email"] {
+    margin: 0 auto; /* Center the input horizontally */
+    width: calc(70% - 40px); /* Set width of the email input */
+    padding: 10px; /* Add padding */
+    font-size: 1em; /* Set font size */
+    border: none; /* Remove default border */
+    border-radius: 30px; /* Add border radius */
+    background-color: #E9E6E6; /* Set background color */
+    outline: none; /* Remove outline */
+  }
+
+  .password-input {
+    position: relative;
+    top: 45%; /* Adjust position as needed */
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 70%; /* Set width of the input container */
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .password-input label {
+    font-family: 'Roboto', sans-serif; /* Use Roboto font with fallback to sans-serif */
+    margin-bottom: 5px;
+    margin-left: -51%; /* Adjust position as needed */
+    font-size: 1.2em; /* Set font size for the label */
+    color: #333; /* Set text color for the label */
+    margin-bottom: 10px; /* Add margin bottom for spacing */
+  }
+  
+  .password-input input[type="password"] {
+    margin: 0 auto; /* Center the input horizontally */
+    width: calc(70% - 40px); /* Set width of the email input */
+    padding: 10px; /* Add padding */
+    font-size: 1em; /* Set font size */
+    border: none; /* Remove default border */
+    border-radius: 30px; /* Add border radius */
+    background-color: #E9E6E6; /* Set background color */
+    outline: none; /* Remove outline */
+  }
+
+  .submit-button {
+    background-color: #28B4AC; /* Set background color */
+    color: white; /* Set text color */
+    padding: 10px 20px; /* Add padding */
+    font-size: 1em; /* Set font size */
+    border: none; /* Remove default border */
+    border-radius: 30px; /* Add border radius */
+    cursor: pointer; /* Add cursor pointer */
+  }
+  
+  .submit-button:hover {
+    background-color: #1e9487; /* Change background color on hover */
+  }
+  
+
+  /* Responsive Styles */
+@media screen and (max-width: 768px) {
+    .white-rectangle {
+      width: 90%; /* Adjust rectangle width for smaller screens */
+      height: 60vh; /* Adjust rectangle height for smaller screens */
+      margin: 20vh auto; /* Adjust margin for smaller screens */
+    }
+  
+    .triangle {
+      top: -15%;
+      right: -15%;
+      width: 30px;
+      height: 30px;
+      border-left: 20px solid transparent; /* Adjust size of the triangle for smaller screens */
+      border-bottom: 20px solid #28B4AC; /* Set color of the triangle for smaller screens */
+    }
+  
+    h1 {
+      top: 10%;
+      left: 10%;
+    }
+  }
+  
