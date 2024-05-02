@@ -1,0 +1,21 @@
+
+.sidebar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: calc(100vw / 6);
+    height: 100vh;
+    background-color: #28B4AC;
+    display: flex;
+    align-items: flex-start; /* Alignement en haut */
+    justify-content: center;
+    flex-direction: column;
+}
+
+.sidebar h1 {
+    color: white;
+    margin-top: 20px; /* Espacement par rapport au bord supérieur */
+    margin-bottom: 650px;
+    margin-left:20px; /* Espacement par rapport au bord inférieur */
+    font-size: 24px;
+}
