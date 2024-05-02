@@ -1,37 +1,20 @@
-<!-- <form method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-    <label for="id_name">Name:</label>
-    <input type="text" id="id_name" name="name">
-
-    <label for="id_file">File:</label>
-    <input type="file" id="id_file" name="file">
-    <button type="submit">Upload</button>
-</form> -->
-
 <!DOCTYPE html>
 <html lang="fr">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Upload PDF</title>
-
-    <link
-      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
-      rel="stylesheet"
-    />
+    
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     {% load static %}
-    <link
-      rel="stylesheet"
-      type="text/css"
-      href="{% static 'css/upload.css' %}"
-    />
+    <link rel="stylesheet" type="text/css" href="{% static 'css/upload.css' %}">
 
     <script>
-      {% if message %}
-          alert("{{ message }}");
-      {% endif %}
+        {% if message %}
+            alert("{{ message }}");
+        {% endif %}
     </script>
-  </head>
+</head>
   <body class="bg-gray-100 flex items-center justify-center h-screen relative">
     <div class="sidebar">
       <h1>Les fichiers</h1>
