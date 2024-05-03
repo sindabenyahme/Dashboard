@@ -9,6 +9,23 @@
     {% load static %}
     <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
 
+
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Inclure jQuery UI -->
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+    <!-- Inclure le thème jQuery UI -->
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <style>
+        /* Style optionnel pour le sélecteur de date */
+        .ui-datepicker {
+            font-size: 14px;
+        }
+    </style>
+
+
+
+
     <script>
         {% if message %}
             alert("{{ message }}");
@@ -18,9 +35,14 @@
   <body class="bg-gray-100 flex items-center justify-center h-screen relative">
     <div class="sidebar">
       <h1>Les fichiers</h1>
+      <ul>
+        {% comment %} {% for file in files %}
+            <li>{{ file }}</li>
+        {% endfor %} {% endcomment %}
+    </ul>
     </div>
     <div class="container mx-auto px-6 py-8">
-      <h2 class="text-3xl font-semibold text-center mb-8">
+      <h2 class="text-3xl font-semibold text-center mb-8"style="margin-left:100px;">
         Télécharger le fichier Excel
       </h2>
       <div class="max-w-md mx-auto">
@@ -28,27 +50,21 @@
           method="post"
           enctype="multipart/form-data"
         >
-          <div class="flex justify-center">
-            <div class="max-w-screen-lg mx-auto">
-              <div
-                class="flex items-center justify-center border border-gray-300 p-2 mt-2 mr-3"
-              >
-                <!-- Champ de fichier avec marge à gauche -->
-                <!-- <input
-                  class="form-input text-lg flex-grow mr-4 ml-9"
-                  type="file"
-                  name="my_file"
-                  id="my_file"
-                  accept=".xlsx"
-                  required
-                /> -->
-                <!-- Bouton "Charger" -->
-                {% csrf_token %}
-                <label for="id_name">Name:</label>
-                <input type="text" id="id_name" name="name" />
-
-                <label for="id_file">File:</label>
-                <input type="file" id="id_file" name="file" class="form-input text-lg flex-grow mr-4 ml-9" />
+        <div class="flex justify-center w-full ">
+          <div class="max-w-screen mx-auto" style="margin-left:100px;">
+              <div class="flex items-center justify-center border border-gray-200 p-2 mt-2 mr-3">
+                  {% csrf_token %}
+                  <label for="id_date_start" style="font-size: 20px;" class="mr-2">Date Début:</label>
+                  <input type="text" id="id_date_start" name="start_date" class="border border-gray-400 rounded p-1 mr-2" />
+      
+                  <label for="id_date_end" style="font-size: 20px;" class="mr-2">Date Fin:</label>
+                  <input type="text" id="id_date_end" name="end_date" class="border border-gray-400 rounded p-1 mr-2" />
+              </div>
+                  <div class="flex items-center justify-center border border-gray-200 p-2 mt-2 mr-3">
+                  <label for="id_file" style="font-size: 20px;" class="mr-2">Fichier:</label>
+                  <input type="file" id="id_file" name="file" class="form-input text-lg flex-grow rounded p-1 mr-2" />
+      
+                  
                 <button
                   style="
                     background-color: #28b4ac;
@@ -81,5 +97,23 @@
         </form>
       </div>
     </div>
+    <script>
+        $(function() {
+            // Configuration du sélecteur de date
+            $("#id_date_start, #id_date_end").datepicker({
+                dateFormat: "yy-mm-dd", // Format de la date
+                onSelect: function(selectedDate) {
+                    // Mettre à jour la date min/max pour le champ opposé
+                    var option = this.id == "id_date_start" ? "minDate" : "maxDate",
+                        instance = $(this).data("datepicker"),
+                        date = $.datepicker.parseDate(
+                            instance.settings.dateFormat ||
+                            $.datepicker._defaults.dateFormat,
+                            selectedDate, instance.settings);
+                    $("#id_date_start, #id_date_end").not(this).datepicker("option", option, date);
+                }
+            });
+        });
+    </script>
   </body>
 </html>

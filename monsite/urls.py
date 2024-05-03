@@ -25,7 +25,8 @@ urlpatterns = [
 
     path('upload/', upload_file, name='upload'),
     path('success/', success, name='success'),
-    path('upload/', upload_file, name='upload_file'),
+    # path('', file_list, name='file_list'),
+    
 ]
 
 # Serve media files during development
