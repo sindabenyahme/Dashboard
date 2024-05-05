@@ -22,7 +22,6 @@ from .views import upload_file, success
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-
     path('upload/', upload_file, name='upload'),
     path('success/', success, name='success'),
     # path('', file_list, name='file_list'),
