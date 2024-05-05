@@ -1,6 +1,5 @@
+
 from django.shortcuts import render, redirect
-from .models import File
-from django.http import HttpResponse 
 from .forms import FileForm
 
 def upload_file(request):
