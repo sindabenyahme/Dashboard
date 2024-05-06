@@ -18,13 +18,13 @@ from django.contrib import admin
 from django.urls import path
 from django.conf import settings
 from django.conf.urls.static import static
-from .views import  upload_file, success
+from .views import login, upload_file, success
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('upload/', upload_file, name='upload'),
     path('success/', success, name='success'),
-    
+    # path('', file_list, name='file_list'),
     
 ]
 

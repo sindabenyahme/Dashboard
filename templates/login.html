@@ -13,10 +13,11 @@
   <div class="white-rectangle">
     <h1>Connexion</h1>
     <div class="triangle"></div>
-    <form>
+    <form id="login-form" method="POST" action="{% url 'log' %}">
+      {% csrf_token %}
     <div class="email-input">
-        <label for="email">Adresse Email :</label>
-        <input type="email" id="email" name="email" placeholder="Saisir votre adresse email">
+        <label for="username">Adresse Email :</label>
+        <input type="text" id="email" name="username" placeholder="Saisir votre adresse email">
     </div>
     <br>
     <div class="password-input">
@@ -26,6 +27,10 @@
   <button type="submit" class="submit-button">Se connecter</button>
 
 </form>
+
+
+<!-- Example using a link -->
+
   </div>
   
 </body>
