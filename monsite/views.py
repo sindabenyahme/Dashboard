@@ -1,12 +1,15 @@
 
 from django.shortcuts import render, redirect
 from .forms import FileForm
+from .models import File
 from rest_framework.authtoken.models import Token
 from django.contrib.auth import authenticate, login
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import AllowAny
 from django.contrib.auth.decorators import login_required
+from django.http import HttpResponse
+
 
 @api_view(['POST'])
 @permission_classes([AllowAny])
@@ -25,6 +28,10 @@ def log(request):
 
 @login_required
 def upload_file(request):
+    files = File.objects.all()  
+    for file in files:
+        file.file = str(file.file).split('/')[-1] if '/' in str(file.file) else str(file.file).split('\\')[-1]
+        print(file.file)
     if request.method == 'POST':
         form = FileForm(request.POST, request.FILES)
         if form.is_valid():
@@ -32,11 +39,12 @@ def upload_file(request):
             return redirect('success')
     else:
         form = FileForm()
-    return render(request, 'upload.html', {'form': form})
+    return render(request, 'upload.html', {'form': form,'files': files })
 
 @login_required
 def success(request):
-    return render(request, 'success.html')
+    return HttpResponse('Le fichier Excel a été téléchargé avec succès !')
+
 
 def login_view(request):
     if request.user.is_authenticated:
