@@ -12,10 +12,19 @@
     flex-direction: column;
 }
 
-.sidebar h1 {
+.text-xl{
     color: white;
-    margin-top: 20px; /* Espacement par rapport au bord supérieur */
+    margin-top: 10px; 
     margin-bottom: 650px;
-    margin-left:20px; /* Espacement par rapport au bord inférieur */
-    font-size: 24px;
+    font-size: 18px;
+    margin-left:15px;
+
 }
+
+.files-heading {
+    font-size: 24px;
+    font-weight: bold; 
+    color: #f3f7fa;
+    margin:40px;
+    padding:10px;
+    margin-bottom:10px;}
