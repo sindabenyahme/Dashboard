@@ -1,30 +1,31 @@
 
-.sidebar {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: calc(100vw / 6);
-    height: 100vh;
-    background-color: #28B4AC;
-    display: flex;
-    align-items: flex-start; /* Alignement en haut */
-    justify-content: center;
-    flex-direction: column;
-}
+        .sidebar {
+            background-color: #28B4AC; /* Couleur de fond de la barre de navigation */
+            width: 200px; /* Largeur de la barre de navigation */
+            height: 100%; /* Hauteur pour couvrir toute la hauteur de l'écran */
+            position: fixed; /* Fixer la barre de navigation */
+            left: 0; /* Aligner à gauche */
+            top: 0; /* Aligner en haut */
+            padding-top: 20px; /* Espacement en haut */
+        }
 
-.text-xl{
-    color: white;
-    margin-top: 10px; 
-    margin-bottom: 650px;
-    font-size: 18px;
-    margin-left:15px;
+        .sidebar ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
 
-}
+        .sidebar li {
+            margin-bottom: 10px;
+        }
 
-.files-heading {
-    font-size: 24px;
-    font-weight: bold; 
-    color: #f3f7fa;
-    margin:40px;
-    padding:10px;
-    margin-bottom:10px;}
+        .card {
+            width: 35%;
+            height:100%; /* Ajustez la largeur en fonction de votre mise en page */
+            margin-top: 30px;
+            margin-bottom: 20px;
+            padding:10%;
+            background-color: #E9E6E6; /* Couleur de fond */
+            border-radius: 8px; /* Coins arrondis */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Ombre portée */
+        }
+    
