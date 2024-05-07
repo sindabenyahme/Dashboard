@@ -9,7 +9,7 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import AllowAny
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
-
+from django.contrib.auth import logout as auth_logout
 
 @api_view(['POST'])
 @permission_classes([AllowAny])
@@ -24,7 +24,7 @@ def log(request):
         login(request, user)
         return redirect('upload')
     else:
-        return Response({'error': 'Invalid credentials'}, status=400)
+        return redirect('login')
 
 @login_required
 def upload_file(request):
@@ -51,7 +51,7 @@ def login_view(request):
         return redirect('upload')  # Redirect logged-in users to the upload page
     else:
         return render(request, 'login.html')
-
-
-
-
+    
+def logout(request):
+    auth_logout(request)
+    return redirect('login')

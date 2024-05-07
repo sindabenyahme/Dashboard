@@ -2,8 +2,7 @@ from django.contrib import admin
 from django.urls import path
 from django.conf import settings
 from django.conf.urls.static import static
-from .views import login_view, upload_file, success, log
-from django.contrib.auth import views as auth_views
+from .views import login_view, upload_file, success, log, logout
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -11,7 +10,7 @@ urlpatterns = [
     path('upload/', upload_file, name='upload'),
     path('success/', success, name='success'),
     path('api/log/', log, name='log'),
-    path('logout/', auth_views.LogoutView.as_view(), name='logout'),
+    path('logout/', logout, name='logout')
 ]
 
 # Serve media files during development
