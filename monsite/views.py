@@ -53,5 +53,16 @@ def login_view(request):
         return render(request, 'login.html')
 
 
+from django.shortcuts import render
+from .models import File
 
 
+@login_required
+def dash(request):
+    files = File.objects.all()  
+    for file in files:
+        file.file = str(file.file).split('/')[-1] if '/' in str(file.file) else str(file.file).split('\\')[-1]
+        print(file.file)
+
+
+    return render(request, 'stats.html', {'files': files})

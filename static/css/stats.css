@@ -11,21 +11,20 @@
     justify-content: center;
     flex-direction: column;
 }
+
 .text-xl{
     color: white;
-    margin-top: 100px; 
+    margin-top: 10px; 
     margin-bottom: 650px;
     font-size: 18px;
-    margin-left:5px;
+    margin-left:15px;
 
 }
 
 .files-heading {
-    font-size: 24px; /* Changer la taille de la police */
-    font-weight: bold; /* Mettre en gras */
+    font-size: 24px;
+    font-weight: bold; 
     color: #f3f7fa;
     margin:40px;
     padding:10px;
-    margin-bottom:10px; /* Changer la couleur du texte */
-    /* Ajoutez d'autres styles selon vos besoins */
-  }
+    margin-bottom:10px;}
