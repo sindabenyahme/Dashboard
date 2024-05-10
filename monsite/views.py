@@ -114,10 +114,10 @@ def graphe2(data):
 
     return graph_html
 
-def dash(request):
-    def is_night(hour):
+def is_night(hour):
         return hour < 6 or hour >= 20
 
+def dash(request):
     files = File.objects.all()  
     excel_data = []
     graph_html = ''
