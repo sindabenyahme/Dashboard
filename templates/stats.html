@@ -113,14 +113,12 @@
         }
 
         .card {
-            width: 35%;
-            height:100%; /* Ajustez la largeur en fonction de votre mise en page */
-            margin-top: 30px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             margin-bottom: 20px;
-            padding:10%;
-            background-color: #9E6E6; /* Couleur de fond */
-            border-radius: 8px; /* Coins arrondis */
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Ombre portée */
         }
     </style>
 
@@ -143,13 +141,15 @@
 
     <div class="flex flex-wrap justify-center">
         <!-- Première carte -->
-        <div class="card" style="margin-right: 150px;margin-left:200px;">
-            <!-- Contenu de votre premier graphe statique ici -->
+        <div class="card" style="margin-right: 100px;margin-left:150px;">
+            {{ graph_html | safe }}
         </div>
         
         <!-- Deuxième carte -->
         <div class="card">
             <!-- Contenu de votre deuxième graphe statique ici -->
+            
+            {{ graph_calls_period_html | safe }}
         </div>
     
         <!-- Troisième carte -->

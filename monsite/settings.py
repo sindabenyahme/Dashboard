@@ -53,7 +53,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'monsite.middleware.RedirectMiddleware',  # Correct import path to your custom middleware
+
 ]
 
 REST_FRAMEWORK = {

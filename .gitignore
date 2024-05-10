@@ -1,3 +1,5 @@
 venv/
 my_env/
+migrations/
 db.sqlite3
+
