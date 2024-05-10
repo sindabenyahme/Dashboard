@@ -67,6 +67,29 @@ def dash(request):
 
     return render(request, 'stats.html', {'files': files})
 
+import pandas as pd
+
+@login_required
+def dash(request):
+    files = File.objects.all()  
+    excel_data = []
+
+    for file in files:
+        # Assuming each Excel file contains only one sheet
+        df = pd.read_excel(file.file)
+        excel_data.append(df)
+
+    # Concatenate all dataframes into one
+    if excel_data:
+        combined_df = pd.concat(excel_data, ignore_index=True)
+        # Convert the combined dataframe to a list of dictionaries
+        table_data = combined_df.to_dict(orient='records')
+    else:
+        table_data = []
+
+    return render(request, 'stats.html', {'files': files, 'table_data': table_data})
+
+
 def logout(request):
     auth_logout(request)
     return redirect('login')
