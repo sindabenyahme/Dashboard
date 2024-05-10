@@ -8,7 +8,7 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import AllowAny
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponse
+
 from django.contrib.auth import logout as auth_logout
 
 @api_view(['POST'])
@@ -28,7 +28,7 @@ def log(request):
 
 @login_required
 def upload_file(request):
-    files = File.objects.all()  
+    files = File.objects.all()
     for file in files:
         file.file = str(file.file).split('/')[-1] if '/' in str(file.file) else str(file.file).split('\\')[-1]
         print(file.file)
@@ -36,14 +36,13 @@ def upload_file(request):
         form = FileForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
-            return redirect('success')
+            return redirect('dash')
     else:
-        form = FileForm()
-    return render(request, 'upload.html', {'form': form,'files': files })
 
-@login_required
-def success(request):
-    return HttpResponse('Le fichier Excel a été téléchargé avec succès !')
+        return render(request, 'upload.html', { 'files': files })
+
+
+
 
 
 def login_view(request):
@@ -59,7 +58,7 @@ from .models import File
 
 @login_required
 def dash(request):
-    files = File.objects.all()  
+    files = File.objects.all()
     for file in files:
         file.file = str(file.file).split('/')[-1] if '/' in str(file.file) else str(file.file).split('\\')[-1]
         print(file.file)
