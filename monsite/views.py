@@ -11,6 +11,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.contrib.auth import logout as auth_logout
 from django.http import HttpResponseBadRequest
+import pandas as pd
 
 
 @api_view(['POST'])
@@ -58,43 +59,22 @@ from django.shortcuts import render
 from .models import File
 
 
-# @login_required
-# def dash(request):
-#     files = File.objects.all()  
-#     for file in files:
-#         print(file)
-#         file.file = str(file.file).split('/')[-1] if '/' in str(file.file) else str(file.file).split('\\')[-1]
-#     return render(request, 'stats.html', {'files': files})
-
-import pandas as pd
-
 @login_required
 def dash(request):
-    files = File.objects.all()  
-    excel_data = []
-
-    for file in files:
-        # Assuming each Excel file contains only one sheet
-        df = pd.read_excel(file.file)
-        excel_data.append(df)
-
-    # Concatenate all dataframes into one
-    if excel_data:
-        combined_df = pd.concat(excel_data, ignore_index=True)
-        # Convert the combined dataframe to a list of dictionaries
-        table_data = combined_df.to_dict(orient='records')
-    else:
-        table_data = []
-    2
-    file_name = request.GET.get('file')  # Get the file name from the query parameters
+    #Get file from upload view
+    file_name = request.GET.get('file')  
     df = pd.read_excel("media/files/"+file_name)
     print(df)
 
- 
-    # Now you can use the 'file_name' variable in your view logic
-    # For example, you can filter the files based on this file name
+    #Print all the files on the side bar
+    files = File.objects.all()  
+    for file in files:
+        print(file)
+        file.file = str(file.file).split('/')[-1] if '/' in str(file.file) else str(file.file).split('\\')[-1]
+    return render(request, 'stats.html', {'files': files})
 
-    return render(request, 'stats.html', {'files': files, 'table_data': table_data})
+
+
 
 
 def logout(request):
