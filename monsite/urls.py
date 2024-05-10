@@ -11,7 +11,7 @@ urlpatterns = [
     path('success/', success, name='success'),
     path('api/log/', log, name='log'),
     path('logout/', logout, name='logout'),
-    path ('dashboard',dash,name='dash'),
+    path ('dashboard/',dash,name='dash'),
 ]
 
 # Serve media files during development

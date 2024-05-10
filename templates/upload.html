@@ -37,7 +37,7 @@
     <ul class="text-xl" style="list-style-type: none; padding-left: 0;">
       <p class="files-heading">Les fichiers</p>
       {% for file in files %}
-      <li>{{ file.file }}</li>
+      <li><a href="{% url 'dash' %}?file={{ file.file }}">{{ file.file }}</a></li>
       {% endfor %}
     </ul>
  

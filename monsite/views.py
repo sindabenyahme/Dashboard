@@ -10,6 +10,8 @@ from rest_framework.permissions import AllowAny
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.contrib.auth import logout as auth_logout
+from django.http import HttpResponseBadRequest
+
 
 @api_view(['POST'])
 @permission_classes([AllowAny])
@@ -31,7 +33,6 @@ def upload_file(request):
     files = File.objects.all()  
     for file in files:
         file.file = str(file.file).split('/')[-1] if '/' in str(file.file) else str(file.file).split('\\')[-1]
-        print(file.file)
     if request.method == 'POST':
         form = FileForm(request.POST, request.FILES)
         if form.is_valid():
@@ -57,15 +58,13 @@ from django.shortcuts import render
 from .models import File
 
 
-@login_required
-def dash(request):
-    files = File.objects.all()  
-    for file in files:
-        file.file = str(file.file).split('/')[-1] if '/' in str(file.file) else str(file.file).split('\\')[-1]
-        print(file.file)
-
-
-    return render(request, 'stats.html', {'files': files})
+# @login_required
+# def dash(request):
+#     files = File.objects.all()  
+#     for file in files:
+#         print(file)
+#         file.file = str(file.file).split('/')[-1] if '/' in str(file.file) else str(file.file).split('\\')[-1]
+#     return render(request, 'stats.html', {'files': files})
 
 import pandas as pd
 
@@ -86,6 +85,14 @@ def dash(request):
         table_data = combined_df.to_dict(orient='records')
     else:
         table_data = []
+    2
+    file_name = request.GET.get('file')  # Get the file name from the query parameters
+    df = pd.read_excel("media/files/"+file_name)
+    print(df)
+
+ 
+    # Now you can use the 'file_name' variable in your view logic
+    # For example, you can filter the files based on this file name
 
     return render(request, 'stats.html', {'files': files, 'table_data': table_data})
 
