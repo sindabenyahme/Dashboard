@@ -46,13 +46,14 @@
 
     <div class="flex flex-wrap justify-center">
         <!-- Première carte -->
-        <div class="card">
-            <!-- Contenu de votre premier graphe statique ici -->
+        <div class="card" style="margin-right: 100px;margin-left:150px;">
+            {{ graph_html | safe }}
         </div>
         
         <!-- Deuxième carte -->
         <div class="card">
             <!-- Contenu de votre deuxième graphe statique ici -->
+            {{ graph_calls_period_html | safe }}
         </div>
         
         <!-- Troisième carte -->
