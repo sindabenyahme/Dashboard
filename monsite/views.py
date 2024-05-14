@@ -171,6 +171,39 @@ def plot_calls_per_day_and_time(df):
 
     return graph_html
 
+def plot_calls_duration_ranges(df):
+    # Assuming df has 'Durée' column
+
+    # Categorize Durée into different bins representing duration ranges
+    bins = [0, 5, 10, 60, float('inf')]  # Duration ranges: <5m, 5-10m, 10m-1h, >=1h
+    labels = ['<5m', '5-10m', '10m-1h', '>=1h']
+    df['Duration Range'] = pd.cut(df['Durée'], bins=bins, labels=labels, right=False)
+
+    # Count the number of calls in each duration range
+    duration_counts = df['Duration Range'].value_counts().sort_index()
+
+    # Create a bar plot
+    bar_plot = go.Bar(
+        x=duration_counts.index,
+        y=duration_counts.values,
+        marker=dict(color='lightblue')
+    )
+
+    # Create layout
+    layout = go.Layout(
+        title='Number of Calls by Duration Range',
+        xaxis=dict(title='Duration Range'),
+        yaxis=dict(title='Number of Calls')
+    )
+
+    # Create figure
+    fig = go.Figure(data=[bar_plot], layout=layout)
+
+    # Convert the figure to HTML
+    graph_html = fig.to_html(full_html=False)
+
+    return graph_html
+
 #Statistique
 def dash(request):
     files = File.objects.all()  
