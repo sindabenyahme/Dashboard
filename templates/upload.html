@@ -40,12 +40,20 @@
       <li><a href="{% url 'dash' %}?file={{ file.file }}">{{ file.file }}</a></li>
       {% endfor %}
     </ul>
- 
+  </div>
+  <div class="absolute top-0 right-0 mt-4 mr-4">
+    <form action="{% url 'logout' %}" method="post">
+      {% csrf_token %}
+      <button type="submit" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded">
+        Se Déconnecter
+      </button>
+    </form>
   </div>
     <div class="container mx-auto px-6 py-8">
       <h2 class="text-3xl font-semibold text-center mb-8"style="margin-left:100px;">
         Télécharger le fichier Excel
       </h2>
+      
       <div class="max-w-md mx-auto">
         <form
           method="post"
@@ -97,10 +105,7 @@
         </form>
       </div>
     </div>
-    <form action="{% url 'logout' %}" method="post">
-      {% csrf_token %}
-      <button type="submit">Logout</button>
-    </form>
+    
     <script>
         $(function() {
             // Configuration du sélecteur de date
