@@ -4,7 +4,6 @@ from .forms import FileForm
 from .models import File
 from rest_framework.authtoken.models import Token
 from django.contrib.auth import authenticate, login
-from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import AllowAny
 from django.contrib.auth.decorators import login_required
@@ -16,6 +15,7 @@ from django.contrib.auth import logout as auth_logout
 import re
 import seaborn as sns
 import plotly.graph_objs as go
+import plotly.io as pio
 
 
 #Authentication
@@ -174,26 +174,32 @@ def plot_calls_per_day_and_time(df):
 def plot_calls_duration_ranges(df):
     # Assuming df has 'Durée' column
 
+    # Convert Durée to timedelta format
+    df['Durée'] = pd.to_timedelta(df['Durée'])
+
+    # Calculate the total duration in seconds
+    df['Duration_seconds'] = df['Durée'].dt.total_seconds()
+
     # Categorize Durée into different bins representing duration ranges
-    bins = [0, 5, 10, 60, float('inf')]  # Duration ranges: <5m, 5-10m, 10m-1h, >=1h
+    bins = [0, 300, 600, 3600, float('inf')]  # Duration ranges: <5m, 5-10m, 10m-1h, >=1h
     labels = ['<5m', '5-10m', '10m-1h', '>=1h']
-    df['Duration Range'] = pd.cut(df['Durée'], bins=bins, labels=labels, right=False)
+    df['Duration_Range'] = pd.cut(df['Duration_seconds'], bins=bins, labels=labels, right=False)
 
     # Count the number of calls in each duration range
-    duration_counts = df['Duration Range'].value_counts().sort_index()
+    duration_counts = df['Duration_Range'].value_counts().sort_index()
 
     # Create a bar plot
     bar_plot = go.Bar(
         x=duration_counts.index,
         y=duration_counts.values,
-        marker=dict(color='lightblue')
+        marker=dict(color='#6495ED')
     )
 
     # Create layout
     layout = go.Layout(
-        title='Number of Calls by Duration Range',
-        xaxis=dict(title='Duration Range'),
-        yaxis=dict(title='Number of Calls')
+        title='Nombre des appels par durée',
+        xaxis=dict(title="Durée d'appel"),
+        yaxis=dict(title='Nombre des appels')
     )
 
     # Create figure
@@ -205,16 +211,88 @@ def plot_calls_duration_ranges(df):
     return graph_html
 
 #Statistique
+
+def graphe3(data):
+    colors = ['#87CEEB', '#00BFFF', '#6495ED', '#B0C4DE', '#B0E0E6']
+
+    # Créer une trace de type "pie" avec les couleurs définies
+    trace = go.Pie(labels=data.index, values=data.values, marker=dict(colors=colors))
+
+    # Créer une figure avec la trace
+    fig = go.Figure(trace)
+
+    fig.update_layout(
+        title = {
+    'text': 'Pourcentage de chaque motif',
+    'font': {
+        'size': 24,
+        # 'color': '#0000FF',
+        'family': 'Arial',
+    },
+    'x': 0.5,
+    'xanchor': 'center',
+ },
+        legend={'orientation': 'h'}  # Placer la légende en bas (horizontal)
+    )
+
+    # Convertir le graphe en format HTML
+    graph_html3 = pio.to_html(fig, full_html=False)
+
+    return graph_html3
+
+
+def creer_tableau_dynamique(df):
+    # Supprimer les codes numériques de la colonne 'Point d'appel'
+    df_copy = df.copy()
+    df_copy['Point d\'appel'] = df_copy['Point d\'appel'].str.replace('\d+', '')
+
+    # Créer un tableau dynamique avec le nombre d'appels par résident
+    tableau_dynamique = df_copy['Point d\'appel'].value_counts().reset_index()
+    tableau_dynamique.columns = ['Resident', 'NB']
+    print(tableau_dynamique[['Resident']])
+
+    return tableau_dynamique
+
+def plot_calls_per_sex(df):
+    # Assuming df has 'Sex' column
+
+    # Count the number of calls per sex
+    sex_counts = df['Sex'].value_counts()
+
+    # Create a bar plot
+    bar_plot = go.Bar(
+        x=sex_counts.index,
+        y=sex_counts.values,
+        marker=dict(color='lightblue')
+    )
+
+    # Create layout
+    layout = go.Layout(
+        title='Nombre des appels par sexe',
+        xaxis=dict(title='Sexe'),
+        yaxis=dict(title='Nombre des appels')
+    )
+
+    # Create figure
+    fig = go.Figure(data=[bar_plot], layout=layout)
+
+    # Convert the figure to HTML
+    graph_html = fig.to_html(full_html=False)
+
+    return graph_html
+
 def dash(request):
     files = File.objects.all()  
     excel_data = []
     graph_html = ''
+    graph_html3 = ''
     graph_calls_period_html = ''
+    tableau_dynamique = None
 
     file_name = request.GET.get('file')  
 
     if file_name:  # Check if file_name is not empty
-        df1 = pd.read_excel("media/files/"+str(file_name), skiprows=1)
+        df1 = pd.read_excel("media/files/" + str(file_name), skiprows=1)
         excel_data.append(df1)
 
         for file in files:
@@ -226,17 +304,28 @@ def dash(request):
         combined_df['Time'] = combined_df['Date'].apply(lambda x: re.search(r'à\s(\d+:\d+)', x).group(1))
         combined_df['Sex'] = combined_df['Point d\'appel'].apply(extract_sex)
         combined_df['Time_Category'] = combined_df['Time'].apply(categorize_time)
+        combined_df['Date'] = pd.to_datetime(combined_df['Date'], format='mixed', errors='coerce')
+        # combined_df['Period'] = combined_df['Date'].apply(lambda x: 'Nuit' if is_night(x.hour) else 'Jour')
+        # calls_per_period = combined_df.groupby('Period').size()
+        # graph_calls_period_html = graphe2(calls_per_period)
+        # graph_calls_period_html = graphe2(combined_df)
+
+        calls_per_point_of_call = combined_df['Motif'].value_counts()
+        graph_html3 = graphe3(calls_per_point_of_call)
+
+        tableau_dynamique = creer_tableau_dynamique(combined_df)
+        print(tableau_dynamique)
 
         graph_html = plot_calls_per_day_and_time(combined_df)
         graph2_html=plot_time_vs_duration_scatter(combined_df)
+        graph_html5=plot_calls_duration_ranges(combined_df)
+        graph_html6=plot_calls_per_sex(combined_df)
         
         #graph_calls_period_html = graphe2(excel_data)
 
-        return render(request, 'stats.html', {'files': files,'table_data': '', 'graph_html': graph_html, 'graph2_html': graph2_html})
+        return render(request, 'stats.html', {'files': files,'table_data': '', 'graph_html': graph_html, 'graph2_html': graph2_html, 'graph_calls_period_html': graph_calls_period_html, 
+                                               'graph_html3': graph_html3,'tableau_dynamique':tableau_dynamique,'graph_html5':graph_html5,'graph_html6':graph_html6})
     else:
-        return render(request, 'stats.html', {'files': files, 'table_data': [], 'graph_html': '', 'graph_calls_period_html': ''})
-
-
-
-
-
+        return render(request, 'stats.html', {'files': files, 'table_data': [], 'graph_html': '', 
+                                               'graph_calls_period_html': '','tableau_dynamique':''})
+        

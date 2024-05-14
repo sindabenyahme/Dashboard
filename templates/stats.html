@@ -121,6 +121,21 @@
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             margin-bottom: 20px;
         }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        
+        th, td {
+            border: 1px solid #B0E0E6;
+            padding: 8px;
+            text-align: center;
+        }
+        
+        th {
+            background-color: #B0E0E6; /* couleur de fond pour l'en-tête */
+        }
     </style>
 
     <script>
@@ -156,22 +171,72 @@
         <!-- Troisième carte -->
         <div class="card"style="margin-right: 150px;margin-left:200px;">
             <!-- Contenu de votre troisième graphe statique ici -->
+            {{ graph_html3 | safe }}
         </div>
         
         <!-- Quatrième carte -->
-        <div class="card" >
-            <!-- Contenu de votre quatrième graphe statique ici -->
-        </div>
+       
+
+             <div class="card" style="overflow-x: auto;text-align: center;">
+            <input type="text" id="searchInput" onkeyup="searchTable()" placeholder="Rechercher par résident...">
+                <div style="max-height: 200px; overflow-y: auto;">
+                    <table border="1" id="residentTable">
+                        <thead>
+                            <tr>
+                                <th>Résident</th>
+                                <th>Nombre d'appels</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for row,value in tableau_dynamique.iterrows %}
+                            <tr class="residentRow">
+                                <td>{{ value.Resident }}</td>
+                                <td>{{ value.NB }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+
+        
+        
         
         <!-- Cinquième carte -->
         <div class="card" style="margin-right: 150px;margin-left:200px;">
-            <!-- Contenu de votre cinquième graphe statique ici -->
+            {{ graph_html5 | safe }}
         </div>
         
         <!-- Sixième carte -->
         <div class="card">
-            <!-- Contenu de votre sixième graphe statique ici -->
+            {{ graph_html6 | safe }}
         </div>
     </div>
 </body>
+
+<script>
+    function searchTable() {
+        // Déclaration des variables
+        var input, filter, table, tr, td, i, txtValue;
+        input = document.getElementById("searchInput");
+        filter = input.value.toUpperCase();
+        table = document.getElementById("residentTable");
+        tr = table.getElementsByTagName("tr");
+
+        // Boucle à travers toutes les lignes de la table et cache celles qui ne correspondent pas à la recherche
+        for (i = 0; i < tr.length; i++) {
+            td = tr[i].getElementsByTagName("td")[0]; // Index 0 correspond à la colonne du résident
+            if (td) {
+                txtValue = td.textContent || td.innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }
+        }
+    }
+</script>
+
 </html>

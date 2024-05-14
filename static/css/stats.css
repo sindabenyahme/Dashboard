@@ -29,3 +29,26 @@
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Ombre portée */
         }
     
+        .scroll-container {
+            max-height: 200px;
+            overflow-y: 200px;
+            border: 1px solid #ccc; /* Border color */
+            border-radius: 5px; /* Rounded border */
+            padding: 10px; /* Add padding for better appearance */
+            text-align: center; /* Center the content */
+        }
+        
+        /* Customizing scrollbar color */
+        .scroll-container::-webkit-scrollbar {
+            width: 12px; /* Width of the scrollbar */
+        }
+        
+        .scroll-container::-webkit-scrollbar-thumb {
+            background-color: #888; /* Thumb color */
+            border-radius: 10px; /* Rounded corners */
+        }
+        
+        .scroll-container::-webkit-scrollbar-track {
+            background-color: #f1f1f1; /* Track color */
+        }
+        
