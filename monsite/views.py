@@ -121,8 +121,8 @@ def plot_time_vs_duration_scatter(df):
 
     # Create layout
     layout = go.Layout(
-        title='Duration for Each Time Scatter Plot',
-        xaxis=dict(title='Time'),
+        title="Durée d'appel en fonction du temps",
+        xaxis=dict(title='Temps'),
         yaxis=dict(title='Durée')
     )
 
@@ -145,7 +145,7 @@ def plot_calls_per_day_and_time(df):
         name='Jour',
         hoverinfo='text',
         text=[f'Jour<br>{jour}' for jour in calls_per_day_time['Jour']],
-        marker=dict(color='lightblue')
+        marker=dict(color='#B0E0E6')
     )
     trace_nuit = go.Bar(
         x=calls_per_day_time.index,
@@ -153,7 +153,7 @@ def plot_calls_per_day_and_time(df):
         name='Nuit',
         hoverinfo='text',
         text=[f'Nuit<br>{nuit}' for nuit in calls_per_day_time['Nuit']],
-        marker=dict(color='darkblue')
+        marker=dict(color='#6495ED')
     )
 
     # Create layout
