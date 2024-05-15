@@ -6,6 +6,7 @@
     <title>Upload PDF</title>
     
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     {% load static %}
     <link rel="stylesheet" type="text/css" href="{% static 'css/upload.css' %}">
 
@@ -48,6 +49,20 @@
         background-color: #D8D8D9;
         color: black;
     }
+
+    .delete-button {
+     
+      color: white; /* Couleur du texte */
+      border: none; /* Pas de bordure */
+      padding: 5px 10px; /* Espacement interne */
+      border-radius: 3px; /* Bordures arrondies */
+      cursor: pointer; /* Curseur de la souris */
+  }
+  
+  .delete-button:hover {
+      background-color: #D8D8D9; /* Couleur de fond au survol */
+      color: black;
+  }
     
     </style>
 
@@ -63,16 +78,24 @@
 <body class="bg-gray-100 flex items-center justify-center h-screen relative">
   <div class="sidebar">
     <ul class="text-white">
-      <p class="files-heading">Les fichiers</p>
-      {% for file in files %}
-      <li class="file-button">
-          <a href="{% url 'dash' %}?file={{ file.file }}">
-              <span class="filename">{{ file.file }}</span>
-          </a>
-      </li>
-      {% endfor %}
-  </ul>
+        <p class="files-heading">Les fichiers</p>
+        {% for file in files %}
+        <li class="file-button">
+            <span style="display: inline-block;">
+                <a href="{% url 'dash' %}?file={{ file.file }}">
+                    <span class="filename">{{ file.file }}</span>
+                </a>
+            </span>
+            <form action="{% url 'delete_file' file_id=file.id %}" method="post" style="display: inline;">
+                {% csrf_token %}
+                <button class="delete-button" type="submit"><i class="fas fa-trash"></i></button>
+            </form>
+        </li>
+        {% endfor %}
+    </ul>
 </div>
+
+
   <div class="absolute top-0 right-0 mt-4 mr-4">
     <form action="{% url 'logout' %}" method="post">
       {% csrf_token %}
