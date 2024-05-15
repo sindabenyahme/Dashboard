@@ -59,7 +59,7 @@ def login_view(request):
     else:
         return render(request, 'login.html')
     
-    #Data preprossecing
+    
 
 def extract_sex(point):
     if 'Mle' in point or 'Mme' in point:
@@ -76,6 +76,7 @@ def categorize_time(time):
         return 'Jour'
     else:
         return 'Nuit'
+
 
 def graphe1(data):
     # Extract date without the time part
@@ -105,6 +106,8 @@ def graphe1(data):
 
     return graph_html
 
+
+
 def plot_time_vs_duration_scatter(df):
     df['Time'] = pd.to_datetime(df['Time'])
 
@@ -121,7 +124,10 @@ def plot_time_vs_duration_scatter(df):
 
     # Create layout
     layout = go.Layout(
-        title="Durée d'appel en fonction du temps",
+        title=dict(
+            text="Durée d'appel en fonction du temps",
+            x=0.5  # Set the title's x position to the middle
+        ),
         xaxis=dict(title='Temps'),
         yaxis=dict(title='Durée')
     )
@@ -133,6 +139,12 @@ def plot_time_vs_duration_scatter(df):
     graph_html = fig.to_html(full_html=False)
 
     return graph_html
+
+
+
+
+
+import plotly.graph_objs as go
 
 def plot_calls_per_day_and_time(df):
     # Group the data by day and time category and count the number of calls
@@ -160,16 +172,80 @@ def plot_calls_per_day_and_time(df):
     layout = go.Layout(
         title='Nombre des appels par Jour et Nuit',
         xaxis=dict(title='Jour'),
-        yaxis=dict(title='Nombre des appels')
+        yaxis=dict(title='Nombre des appels'),
+        title_x=0.5  # Positionne le titre au centre du graphe
     )
 
     # Create figure
     fig = go.Figure(data=[trace_jour, trace_nuit], layout=layout)
 
+    # Update layout for legend and graph title
+    fig.update_layout(
+        legend=dict(orientation='v', yanchor='bottom', y=0.3, xanchor='center', x=1.2),
+        title_font=dict(size=20, family='Arial')
+    )
+
     # Convert the figure to an image and encode it to base64
     graph_html = fig.to_html(full_html=False)
 
     return graph_html
+
+
+
+
+
+
+
+def plot_calls_duration_ranges(df):
+    # Assuming df has 'Durée' column
+
+    # Convert Durée to timedelta format
+    df['Durée'] = pd.to_timedelta(df['Durée'])
+
+    # Calculate the total duration in seconds
+    df['Duration_seconds'] = df['Durée'].dt.total_seconds()
+
+    # Categorize Durée into different bins representing duration ranges
+    bins = [0, 300, 600, 3600, float('inf')]  # Duration ranges: <5m, 5-10m, 10m-1h, >=1h
+    labels = ['<5m', '5-10m', '10m-1h', '>=1h']
+    df['Duration_Range'] = pd.cut(df['Duration_seconds'], bins=bins, labels=labels, right=False)
+
+    # Count the number of calls in each duration range
+    duration_counts = df['Duration_Range'].value_counts().sort_index()
+
+    # Create a bar plot with custom colors
+    bar_plot = go.Bar(
+        x=duration_counts.index,
+        y=duration_counts.values,
+        marker=dict(color=['#6495ED', '#4682B4','#87CEEB', '#00BFFF', '#B0C4DE',])
+    )
+
+    # Create layout with centered title
+    layout = go.Layout(
+        title=dict(
+            text='Nombre des appels par la durée',
+            font=dict(
+                family='Arial',
+                size=20,
+                
+            )
+        ),
+        xaxis=dict(title="Durée d'appel"),
+        yaxis=dict(title='Nombre des appels'),
+        title_x=0.5
+    )
+
+    # Create figure
+    fig = go.Figure(data=[bar_plot], layout=layout)
+
+    # Convert the figure to HTML
+    graph_html = fig.to_html(full_html=False)
+
+    return graph_html
+
+
+
+
 
 
 def graphe3(data):
@@ -185,7 +261,7 @@ def graphe3(data):
         title = {
     'text': 'Pourcentage de chaque motif',
     'font': {
-        'size': 24,
+        'size': 20,
         # 'color': '#0000FF',
         'family': 'Arial',
     },
@@ -201,6 +277,10 @@ def graphe3(data):
     return graph_html3
 
 
+
+
+
+
 def creer_tableau_dynamique(df):
     # Supprimer les codes numériques de la colonne 'Point d'appel'
     df_copy = df.copy()
@@ -212,6 +292,52 @@ def creer_tableau_dynamique(df):
     print(tableau_dynamique[['Resident']])
 
     return tableau_dynamique
+
+
+
+
+
+def plot_calls_per_sex(df):
+    # Assuming df has 'Sex' column
+
+    # Count the number of calls per sex
+    sex_counts = df['Sex'].value_counts()
+
+    # Create a bar plot
+    bar_plot = go.Bar(
+        x=sex_counts.index,
+        y=sex_counts.values,
+        marker=dict(color=['#FFC0CB', 'lightblue'])
+    )
+
+    # Create layout with modified title style
+    layout = go.Layout(
+        title=dict(
+            text='Nombre des appels par sexe',
+            font=dict(
+                family='Arial',
+                size=20,
+                
+            )
+        ),
+        xaxis=dict(title='Sexe'),
+        yaxis=dict(title='Nombre des appels'),
+        title_x=0.5
+    )
+
+    # Create figure
+    fig = go.Figure(data=[bar_plot], layout=layout)
+
+    # Convert the figure to HTML
+    graph_html = fig.to_html(full_html=False)
+
+    return graph_html
+
+
+
+
+
+
 
 def dash(request):
     files = File.objects.all()  
@@ -250,11 +376,13 @@ def dash(request):
 
         graph_html = plot_calls_per_day_and_time(combined_df)
         graph2_html=plot_time_vs_duration_scatter(combined_df)
+        graph_html5=plot_calls_duration_ranges(combined_df)
+        graph_html6=plot_calls_per_sex(combined_df)
         
         #graph_calls_period_html = graphe2(excel_data)
 
         return render(request, 'stats.html', {'files': files,'table_data': '', 'graph_html': graph_html, 'graph2_html': graph2_html, 'graph_calls_period_html': graph_calls_period_html, 
-                                               'graph_html3': graph_html3,'tableau_dynamique':tableau_dynamique})
+                                               'graph_html3': graph_html3,'tableau_dynamique':tableau_dynamique,'graph_html5':graph_html5,'graph_html6':graph_html6})
     else:
         return render(request, 'stats.html', {'files': files, 'table_data': [], 'graph_html': '', 
                                                'graph_calls_period_html': '','tableau_dynamique':''})
