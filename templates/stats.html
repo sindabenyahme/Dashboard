@@ -80,8 +80,6 @@
 </html> {% endcomment %}
 
 
-
-
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -96,17 +94,18 @@
     <style>
         .sidebar {
             background-color: #28B4AC; /* Couleur de fond de la barre de navigation */
-            width: 200px; /* Largeur de la barre de navigation */
-            height: 100%; /* Hauteur pour couvrir toute la hauteur de l'écran */
+            width: calc(100vw / 6); /* Occupe 1/6 de la largeur de la page */
+            height: 100vh; /* Hauteur pour couvrir toute la hauteur de l'écran */
             position: fixed; /* Fixer la barre de navigation */
             left: 0; /* Aligner à gauche */
             top: 0; /* Aligner en haut */
-            padding-top: 20px; /* Espacement en haut */
+            padding-top: 50px;
+            
         }
 
         .sidebar ul {
             list-style-type: none;
-            padding-left: 0;
+            padding-left: 20px;
         }
 
         .sidebar li {
@@ -116,7 +115,7 @@
         .card {
             border: 1px solid #ccc;
             border-radius: 5px;
-            padding: 20px;
+            padding: 15px;
             background-color: #fff;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             margin-bottom: 20px;
@@ -136,6 +135,19 @@
         th {
             background-color: #B0E0E6; /* couleur de fond pour l'en-tête */
         }
+        .ml-custom {
+            margin-left: 300px; /* Marge personnalisée à gauche */
+        }
+        .sidebar p {
+            color: white; /* Couleur du texte */
+            font-weight: bold; /* Gras */
+            font-size: 25px; /* Taille de la police */
+            margin-top: 5px; /* Marge en haut */
+            margin-bottom: 20px; /* Marge en bas */
+            padding-left: 20px; /* Espacement à gauche */
+            font-family: Arial, sans-serif; /* Famille de police Arial */
+        }
+
     </style>
 
     <script>
@@ -147,96 +159,98 @@
 <body class="bg-gray-100">
     <div class="sidebar">
         <ul class="text-white">
-                <p class="files-heading">Les fichiers </p>
-                {% for file in files %}
-                <li>{{ file.file }}</li>
-                {% endfor %}
-            </ul>
+            <p class="files-heading">Les fichiers </p>
+            {% for file in files %}
+            <li>{{ file.file }}</li>
+            {% endfor %}
         </ul>
     </div>
 
-    <div class="flex flex-wrap justify-center">
+    <div class="flex flex-wrap justify-center mt-12">
         <!-- Première carte -->
-        <div class="card" style="margin-right: 100px;margin-left:150px;">
+        <div class="card mx-4 ml-custom">
             {{ graph_html | safe }}
         </div>
         
         <!-- Deuxième carte -->
-        <div class="card">
+        <div class="card mx-4">
             <!-- Contenu de votre deuxième graphe statique ici -->
-            
             {{ graph2_html | safe }}
         </div>
     
         <!-- Troisième carte -->
-        <div class="card"style="margin-right: 150px;margin-left:200px;">
+        <div class="card mx-4 ml-custom">
             <!-- Contenu de votre troisième graphe statique ici -->
             {{ graph_html3 | safe }}
         </div>
         
         <!-- Quatrième carte -->
-       
-
-             <div class="card" style="overflow-x: auto;text-align: center;">
+        <div class="card mx-4" style="overflow-x: auto;text-align: center;">
             <input type="text" id="searchInput" onkeyup="searchTable()" placeholder="Rechercher par résident...">
-                <div style="max-height: 200px; overflow-y: auto;">
-                    <table border="1" id="residentTable">
-                        <thead>
-                            <tr>
-                                <th>Résident</th>
-                                <th>Nombre d'appels</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for row,value in tableau_dynamique.iterrows %}
-                            <tr class="residentRow">
-                                <td>{{ value.Resident }}</td>
-                                <td>{{ value.NB }}</td>
-                            </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
+            <div style="max-height: 420px; overflow-y: auto;">
+                <table border="1" id="residentTable">
+                    <thead>
+                        <tr>
+                            <th>Résident</th>
+                            <th>Nombre d'appels</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for row,value in tableau_dynamique.iterrows %}
+                        <tr class="residentRow">
+                            <td>{{ value.Resident }}</td>
+                            <td>{{ value.NB }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
             </div>
-            
-
-        
-        
+        </div>
         
         <!-- Cinquième carte -->
-        <div class="card" style="margin-right: 150px;margin-left:200px;">
+        <div class="card mx-4 ml-custom">
             {{ graph_html5 | safe }}
         </div>
         
         <!-- Sixième carte -->
-        <div class="card">
+        <div class="card mx-4 ">
             {{ graph_html6 | safe }}
         </div>
     </div>
-</body>
 
-<script>
-    function searchTable() {
-        // Déclaration des variables
-        var input, filter, table, tr, td, i, txtValue;
-        input = document.getElementById("searchInput");
-        filter = input.value.toUpperCase();
-        table = document.getElementById("residentTable");
-        tr = table.getElementsByTagName("tr");
+    <script>
+        function searchTable() {
+            var input, filter, table, tr, td, i, j, txtValue;
+            input = document.getElementById("searchInput");
+            filter = input.value.toUpperCase();
+            table = document.getElementById("residentTable");
+            tr = table.getElementsByTagName("tr");
 
-        // Boucle à travers toutes les lignes de la table et cache celles qui ne correspondent pas à la recherche
-        for (i = 0; i < tr.length; i++) {
-            td = tr[i].getElementsByTagName("td")[0]; // Index 0 correspond à la colonne du résident
-            if (td) {
-                txtValue = td.textContent || td.innerText;
-                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+            // Boucle à travers toutes les lignes du tableau (en excluant la première ligne qui contient l'en-tête)
+            for (i = 1; i < tr.length; i++) {
+                // Récupérer toutes les cellules de la ligne
+                td = tr[i].getElementsByTagName("td");
+                var found = false; // variable pour indiquer si le texte est trouvé dans une cellule
+
+                // Boucle à travers toutes les cellules de la ligne
+                for (j = 0; j < td.length; j++) {
+                    if (td[j]) {
+                        txtValue = td[j].textContent || td[j].innerText;
+                        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                            found = true;
+                            break; // Sortir de la boucle dès qu'une correspondance est trouvée dans une cellule
+                        }
+                    }
+                }
+
+                // Afficher ou cacher la ligne en fonction du résultat de la recherche
+                if (found) {
                     tr[i].style.display = "";
                 } else {
                     tr[i].style.display = "none";
                 }
             }
         }
-    }
-</script>
-
+    </script>
+</body>
 </html>
