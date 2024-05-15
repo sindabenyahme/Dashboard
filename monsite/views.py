@@ -61,6 +61,13 @@ def upload_file(request):
 
         return render(request, 'upload.html', { 'files': files })
     
+    
+    
+    
+    
+    
+    
+    
     #Data preprossecing
 def extract_sex(point):
     if 'Mle' in point or 'Mme' in point:

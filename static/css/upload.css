@@ -1,30 +1,63 @@
-
 .sidebar {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: calc(100vw / 6);
-    height: 100vh;
-    background-color: #28B4AC;
-    display: flex;
-    align-items: flex-start; /* Alignement en haut */
-    justify-content: center;
-    flex-direction: column;
+    background-color: #28B4AC; /* Couleur de fond de la barre de navigation */
+    width: calc(100vw / 5); /* Occupe 1/6 de la largeur de la page */
+    height: 100vh; /* Hauteur pour couvrir toute la hauteur de l'écran */
+    position: fixed; /* Fixer la barre de navigation */
+    left: 0; /* Aligner à gauche */
+    top: 0; /* Aligner en haut */
+    padding-top: 50px;
+    
 }
 
-.text-xl{
-    color: white;
-    margin-top: 10px; 
-    margin-bottom: 650px;
-    font-size: 18px;
-    margin-left:15px;
-
+.sidebar ul {
+    list-style-type: none;
+    padding-left: 20px;
 }
 
-.files-heading {
-    font-size: 24px;
-    font-weight: bold; 
-    color: #f3f7fa;
-    margin:40px;
-    padding:10px;
-    margin-bottom:10px;}
+.sidebar li {
+    margin-bottom: 10px;
+}
+.ml-custom {
+    margin-left: 300px; /* Marge personnalisée à gauche */
+}
+.sidebar p {
+    color: white; /* Couleur du texte */
+    font-weight: bold; /* Gras */
+    font-size: 25px; /* Taille de la police */
+    margin-top: 5px; /* Marge en haut */
+    margin-bottom: 20px; /* Marge en bas */
+    padding-left: 20px; /* Espacement à gauche */
+    font-family: Arial, sans-serif; /* Famille de police Arial */
+}
+
+
+.custom-button {
+        background-color: #28B4AC;
+        color: #ffffff; /* Couleur du texte */
+        font-weight: bold; /* Police en gras */
+        padding: 10px 20px; /* Remplissage */
+        border: none; /* Suppression de la bordure */
+        border-radius: 5px; /* Coins arrondis */
+        transition: background-color 0.3s; /* Transition de la couleur de fond */
+      }
+    
+      /* CSS pour changer la couleur du bouton au survol */
+      .custom-button:hover {
+        background-color: #1F9D88;
+      }
+
+     
+    
+    .file-button a {
+        display: block;
+        padding: 10px;
+        color: white;
+        text-decoration: none;
+        border-radius: 5px;
+    }
+    
+    .file-button a:hover {
+        background-color: #D8D8D9;
+        color: black;
+    }
+    

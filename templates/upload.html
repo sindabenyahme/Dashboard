@@ -17,10 +17,38 @@
     <!-- Inclure le thème jQuery UI -->
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <style>
-        /* Style optionnel pour le sélecteur de date */
-        .ui-datepicker {
-            font-size: 14px;
-        }
+        
+      .custom-button {
+        background-color: #28B4AC;
+        color: #ffffff; /* Couleur du texte */
+        font-weight: bold; /* Police en gras */
+        padding: 10px 20px; /* Remplissage */
+        border: none; /* Suppression de la bordure */
+        border-radius: 5px; /* Coins arrondis */
+        transition: background-color 0.3s; /* Transition de la couleur de fond */
+      }
+    
+      /* CSS pour changer la couleur du bouton au survol */
+      .custom-button:hover {
+        background-color: #1F9D88;
+      }
+
+     
+    
+    .file-button a {
+        display: block;
+        padding: 10px;
+        color: white;
+        text-decoration: none;
+
+        border-radius: 5px;
+    }
+    
+    .file-button a:hover {
+        background-color: #D8D8D9;
+        color: black;
+    }
+    
     </style>
 
 
@@ -33,20 +61,23 @@
     </script>
 </head>
 <body class="bg-gray-100 flex items-center justify-center h-screen relative">
-  <div class="sidebar mt-0" style="margin-bottom: 800px;">
-    <ul class="text-xl" style="list-style-type: none; padding-left: 0;">
+  <div class="sidebar">
+    <ul class="text-white">
       <p class="files-heading">Les fichiers</p>
       {% for file in files %}
-      <li><a href="{% url 'dash' %}?file={{ file.file }}">{{ file.file }}</a></li>
+      <li class="file-button">
+          <a href="{% url 'dash' %}?file={{ file.file }}">
+              <span class="filename">{{ file.file }}</span>
+          </a>
+      </li>
       {% endfor %}
-    </ul>
-  </div>
+  </ul>
+</div>
   <div class="absolute top-0 right-0 mt-4 mr-4">
     <form action="{% url 'logout' %}" method="post">
       {% csrf_token %}
-      <button type="submit" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded">
-        Se Déconnecter
-      </button>
+      <button type="submit" class="custom-button">Se Déconnecter</button>
+
     </form>
   </div>
     <div class="container mx-auto px-6 py-8">
@@ -64,14 +95,14 @@
               <div class="flex items-center justify-center border border-gray-200 p-2 mt-2 mr-3">
                   {% csrf_token %}
                   <label for="id_date_start" style="font-size: 20px;" class="mr-2">Date Début:</label>
-                  <input type="text" id="id_date_start" name="start_date" class="border border-gray-400 rounded p-1 mr-2" />
+                  <input type="text" id="id_date_start" name="start_date" class="border border-gray-400 rounded p-1 mr-2" required/>
       
                   <label for="id_date_end" style="font-size: 20px;" class="mr-2">Date Fin:</label>
-                  <input type="text" id="id_date_end" name="end_date" class="border border-gray-400 rounded p-1 mr-2" />
+                  <input type="text" id="id_date_end" name="end_date" class="border border-gray-400 rounded p-1 mr-2" required/>
               </div>
                   <div class="flex items-center justify-center border border-gray-200 p-2 mt-2 mr-3">
                   <label for="id_file" style="font-size: 20px;" class="mr-2">Fichier:</label>
-                  <input type="file" id="id_file" name="file" class="form-input text-lg flex-grow rounded p-1 mr-2" accept=".xlsx, .xls" />
+                  <input type="file" id="id_file" name="file" class="form-input text-lg flex-grow rounded p-1 mr-2" accept=".xlsx, .xls" required/>
                   
                 <button
                   style="
@@ -88,6 +119,7 @@
                 </button>
                 <!-- Bouton "Supprimer" -->
                 <button
+                  id="deleteButton"
                   style="
                     background-color: #cccccc;
                     transition: background-color 0.3s;
@@ -110,7 +142,7 @@
         $(function() {
             // Configuration du sélecteur de date
             $("#id_date_start, #id_date_end").datepicker({
-                dateFormat: "yy-mm-dd", // Format de la date
+                dateFormat: "dd-mm-yy", // Format de la date
                 onSelect: function(selectedDate) {
                     // Mettre à jour la date min/max pour le champ opposé
                     var option = this.id == "id_date_start" ? "minDate" : "maxDate",
@@ -123,6 +155,44 @@
                 }
             });
         });
-    </script>
+
+
+
+      
+       
+          document.addEventListener("DOMContentLoaded", function() {
+            // Récupérer le bouton "Supprimer"
+            var deleteButton = document.querySelector("#deleteButton");
+        
+            // Ajouter un écouteur d'événements pour le clic sur le bouton "Supprimer"
+            deleteButton.addEventListener("click", function() {
+              // Effacer la valeur des champs de date
+              document.querySelector("#id_date_start").value = "";
+              document.querySelector("#id_date_end").value = "";
+        
+              // Effacer la valeur de l'élément input de type fichier
+              document.querySelector("#id_file").value = "";
+        
+              // Vous pouvez également effectuer d'autres actions ici, comme supprimer les données téléchargées côté serveur si nécessaire.
+            });
+          });
+
+
+
+
+          document.addEventListener('DOMContentLoaded', function() {
+            var filenames = document.querySelectorAll('.filename');
+            filenames.forEach(function(filename) {
+                var fileName = filename.innerText;
+                var displayFileName = fileName.length > 19 ? fileName.substring(0, 19) + '...' : fileName;
+                filename.innerText = displayFileName;
+            });
+        });
+        </script>
+        
+        
+        
+  
+    
   </body>
 </html>
