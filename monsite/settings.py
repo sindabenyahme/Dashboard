@@ -30,6 +30,7 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -53,8 +54,12 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-
+    'monsite.middleware.RedirectMiddleware',
+    'monsite.TimeoutLogoutMiddleware.TimeoutLogoutMiddleware',
+    
 ]
+
+SESSION_COOKIE_AGE = 60
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [

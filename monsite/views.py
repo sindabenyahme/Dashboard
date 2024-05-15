@@ -35,6 +35,18 @@ def log(request):
     else:
         return redirect('login')
 
+def logout(request):
+    auth_logout(request)
+    return redirect('login')
+
+def login_view(request):
+    if request.user.is_authenticated:
+        return redirect('upload')  # Redirect logged-in users to the upload page
+    else:
+        return render(request, 'login.html')
+    
+
+
 @login_required
 def upload_file(request):
     files = File.objects.all()
@@ -48,19 +60,8 @@ def upload_file(request):
     else:
 
         return render(request, 'upload.html', { 'files': files })
-
-def logout(request):
-    auth_logout(request)
-    return redirect('login')
-
-def login_view(request):
-    if request.user.is_authenticated:
-        return redirect('upload')  # Redirect logged-in users to the upload page
-    else:
-        return render(request, 'login.html')
     
     #Data preprossecing
-
 def extract_sex(point):
     if 'Mle' in point or 'Mme' in point:
         return 'F'
