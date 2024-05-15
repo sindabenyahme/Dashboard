@@ -56,10 +56,16 @@ def upload_file(request):
         form = FileForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
-            return redirect('dash')
+            return redirect('upload')
     else:
 
         return render(request, 'upload.html', { 'files': files })
+    
+def delete_file(request, file_id):
+    # Assuming YourFileModel is your model name
+    file_to_delete = File.objects.get(pk=file_id)
+    file_to_delete.delete()
+    return redirect('upload')
     
     #Data preprossecing
 def extract_sex(point):
@@ -290,7 +296,6 @@ def creer_tableau_dynamique(df):
     # Créer un tableau dynamique avec le nombre d'appels par résident
     tableau_dynamique = df_copy['Point d\'appel'].value_counts().reset_index()
     tableau_dynamique.columns = ['Resident', 'NB']
-    print(tableau_dynamique[['Resident']])
 
     return tableau_dynamique
 
@@ -373,7 +378,6 @@ def dash(request):
         graph_html3 = graphe3(calls_per_point_of_call)
 
         tableau_dynamique = creer_tableau_dynamique(combined_df)
-        print(tableau_dynamique)
 
         graph_html = plot_calls_per_day_and_time(combined_df)
         graph2_html=plot_time_vs_duration_scatter(combined_df)
