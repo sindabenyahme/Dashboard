@@ -8,11 +8,17 @@
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     {% load static %}
     <link rel="stylesheet" type="text/css" href="{% static 'css/stats.css' %}">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Inclure jQuery UI -->
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+    <!-- Inclure le thème jQuery UI -->
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     
     <style>
         .sidebar {
             background-color: #28B4AC; /* Couleur de fond de la barre de navigation */
-            width: calc(100vw / 6); /* Occupe 1/6 de la largeur de la page */
+            width: calc(100vw /5); /* Occupe 1/6 de la largeur de la page */
             height: 100vh; /* Hauteur pour couvrir toute la hauteur de l'écran */
             position: fixed; /* Fixer la barre de navigation */
             left: 0; /* Aligner à gauche */
@@ -66,6 +72,52 @@
             font-family: Arial, sans-serif; /* Famille de police Arial */
         }
 
+
+        .custom-button {
+            background-color: #28B4AC;
+            color: #ffffff; /* Couleur du texte */
+            font-weight: bold; /* Police en gras */
+            padding: 10px 20px; /* Remplissage */
+            border: none; /* Suppression de la bordure */
+            border-radius: 5px; /* Coins arrondis */
+            transition: background-color 0.3s; /* Transition de la couleur de fond */
+          }
+        
+          /* CSS pour changer la couleur du bouton au survol */
+          .custom-button:hover {
+            background-color: #1F9D88;
+          }
+    
+         
+        
+        .file-button a {
+            display: block;
+            padding: 10px;
+            color: white;
+            text-decoration: none;
+    
+            border-radius: 5px;
+        }
+        
+        .file-button a:hover {
+            background-color: #D8D8D9;
+            color: black;
+        }
+    
+        .delete-button {
+         
+          color: white; /* Couleur du texte */
+          border: none; /* Pas de bordure */
+          padding: 5px 10px; /* Espacement interne */
+          border-radius: 3px; /* Bordures arrondies */
+          cursor: pointer; /* Curseur de la souris */
+      }
+      
+      .delete-button:hover {
+          background-color: #D8D8D9; /* Couleur de fond au survol */
+          color: black;
+      }
+
     </style>
 
     <script>
@@ -77,9 +129,23 @@
 <body class="bg-gray-100">
     <div class="sidebar">
         <ul class="text-white">
-            <p class="files-heading">Les fichiers </p>
+            {% comment %} <p class="files-heading">Les fichiers </p>
             {% for file in files %}
                 <li><a href="{% url 'dash' %}?file={{ file.file }}">{{ file.file }}</a></li>
+            {% endfor %} {% endcomment %}
+            <p class="files-heading">Les fichiers</p>
+            {% for file in files %}
+            <li class="file-button">
+                <span style="display: inline-block;">
+                    <a href="{% url 'dash' %}?file={{ file.file }}">
+                        <span class="filename">{{ file.file }}</span>
+                    </a>
+                </span>
+                <form action="{% url 'delete_file' file_id=file.id %}" method="post" style="display: inline;">
+                    {% csrf_token %}
+                    <button class="delete-button" type="submit"><i class="fas fa-trash"></i></button>
+                </form>
+            </li>
             {% endfor %}
         </ul>
     </div>
