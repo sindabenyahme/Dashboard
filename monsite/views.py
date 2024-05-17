@@ -354,6 +354,10 @@ def dash(request):
     tableau_dynamique = None
 
     file_name = request.GET.get('file')  
+    start_date = request.GET.get('start_date')
+    end_date = request.GET.get('end_date')
+    print(start_date)
+    print(end_date)
 
     if file_name:  # Check if file_name is not empty
         df1 = pd.read_excel("media/files/" + str(file_name), skiprows=1)
@@ -386,7 +390,7 @@ def dash(request):
         
         #graph_calls_period_html = graphe2(excel_data)
 
-        return render(request, 'stats.html', {'files': files,'table_data': '', 'graph_html': graph_html, 'graph2_html': graph2_html, 'graph_calls_period_html': graph_calls_period_html, 
+        return render(request, 'stats.html', {'start_date' : start_date ,'end_date': end_date ,'files': files,'table_data': '', 'graph_html': graph_html, 'graph2_html': graph2_html, 'graph_calls_period_html': graph_calls_period_html, 
                                                'graph_html3': graph_html3,'tableau_dynamique':tableau_dynamique,'graph_html5':graph_html5,'graph_html6':graph_html6})
     else:
         return render(request, 'stats.html', {'files': files, 'table_data': [], 'graph_html': '', 

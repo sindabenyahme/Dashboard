@@ -13,6 +13,20 @@ body {
     border-radius: 30px; /* Set border radius for curved edges */
   }
 
+  .logo-container {
+    position: absolute;
+    top: 10%;
+    right: 34%;
+    transform: translateX(-50%);
+    z-index: 1000; /* Ensure logo appears above other content */
+}
+
+/* Adjust width/height as needed */
+.logo-container img {
+    width: 200px; /* Adjust width as needed */
+    height: auto; /* Maintain aspect ratio */
+}
+
   .triangle {
     position: absolute;
     top: -10%;

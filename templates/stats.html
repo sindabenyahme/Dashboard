@@ -16,6 +16,19 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     
     <style>
+        .logo-container {
+            position: absolute;
+            top: 0;
+            left: 10%;
+            transform: translateX(-50%);
+            z-index: 1000; /* Ensure logo appears above other content */
+        }
+
+        /* Adjust width/height as needed */
+        .logo-container img {
+            width: 200px; /* Adjust width as needed */
+            height: auto; /* Maintain aspect ratio */
+        }
         .sidebar {
             background-color: #28B4AC; /* Couleur de fond de la barre de navigation */
             width: calc(100vw /5); /* Occupe 1/6 de la largeur de la page */
@@ -127,6 +140,9 @@
     </script>
 </head>
 <body class="bg-gray-100">
+    <div class="logo-container">
+        <img src="{% static 'images/logo_agir.png' %}" alt="Logo">
+    </div>
     <div class="sidebar">
         <ul class="text-white">
             {% comment %} <p class="files-heading">Les fichiers </p>
@@ -156,6 +172,8 @@
             Charger un fichier
           </button>
         </a>
+        <p>Du {{ start_date }}</p>
+        <p>Jusqu'à {{ end_date }}</p>
       </div>
     <div class="flex flex-wrap justify-center mt-12">
         <!-- Première carte -->

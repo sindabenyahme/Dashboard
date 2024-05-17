@@ -12,6 +12,9 @@
 <body>
   <div class="white-rectangle">
     <h1>Connexion</h1>
+    <div class="logo-container">
+      <img src="{% static 'images/logo_agir.png' %}" alt="Logo">
+    </div>
     <div class="triangle"></div>
     <form id="login-form" method="POST" action="{% url 'log' %}">
       {% csrf_token %}

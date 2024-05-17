@@ -20,6 +20,21 @@
 .ml-custom {
     margin-left: 300px; /* Marge personnalisée à gauche */
 }
+.logo-container {
+    position: absolute;
+    top: 0;
+    left: 53%;
+    transform: translateX(-50%);
+}
+
+/* Adjust width/height as needed */
+.logo-container img {
+    width: 300px; /* Adjust width as needed */
+    height: auto;
+    margin-top: 55px;
+    left:50%; /* Maintain aspect ratio */
+}
+
 .sidebar p {
     color: white; /* Couleur du texte */
     font-weight: bold; /* Gras */

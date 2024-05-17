@@ -19,7 +19,8 @@
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
-        
+
+
       .custom-button {
         background-color: #28B4AC;
         color: #ffffff; /* Couleur du texte */
@@ -84,7 +85,7 @@
         {% for file in files %}
         <li class="file-button">
             <span style="display: inline-block;">
-                <a href="{% url 'dash' %}?file={{ file.file }}">
+              <a href="{% url 'dash' %}?file={{ file.file }}&start_date={{ file.start_date }}&end_date={{ file.end_date }}">
                     <span class="filename">{{ file.file }}</span>
                 </a>
             </span>
@@ -96,7 +97,9 @@
         {% endfor %}
     </ul>
 </div>
-
+<div class="logo-container">
+  <img src="{% static 'images/logo_agir.png' %}" alt="Logo">
+</div>
 
   <div class="absolute top-0 right-0 mt-4 mr-4">
     <form action="{% url 'logout' %}" method="post">
