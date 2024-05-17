@@ -16,19 +16,7 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     
     <style>
-        .logo-container {
-            position: absolute;
-            top: 0;
-            left: 10%;
-            transform: translateX(-50%);
-            z-index: 1000; /* Ensure logo appears above other content */
-        }
 
-        /* Adjust width/height as needed */
-        .logo-container img {
-            width: 200px; /* Adjust width as needed */
-            height: auto; /* Maintain aspect ratio */
-        }
         .sidebar {
             background-color: #28B4AC; /* Couleur de fond de la barre de navigation */
             width: calc(100vw /5); /* Occupe 1/6 de la largeur de la page */
@@ -36,9 +24,29 @@
             position: fixed; /* Fixer la barre de navigation */
             left: 0; /* Aligner à gauche */
             top: 0; /* Aligner en haut */
-            padding-top: 50px;
-            
+            padding-top: 50px;  
         }
+
+        .dates {
+    position: absolute;
+    top: 20px; /* Ajouté px pour spécifier l'unité */
+    left: 40%;
+    z-index: 1000; /* Ensure logo appears above other content */
+    height: auto; 
+    color: #2766A6;
+    display: flex;
+    justify-content: space-between; /* Pour ajouter un espace entre les deux éléments */
+    gap: 100px; /* Ajustez cette valeur pour augmenter ou diminuer l'espace entre les paragraphes */
+    font-weight: bold;
+    font-size: 24px;
+}
+
+.dates p {
+    margin: 0; /* Supprime les marges par défaut des paragraphes */
+}
+
+
+
 
         .sidebar ul {
             list-style-type: none;
@@ -140,8 +148,9 @@
     </script>
 </head>
 <body class="bg-gray-100">
-    <div class="logo-container">
-        <img src="{% static 'images/logo_agir.png' %}" alt="Logo">
+    <div class="dates">
+        <p>Du : {{ start_date }}</p>
+        <p>Jusqu'à : {{ end_date }}</p>
     </div>
     <div class="sidebar">
         <ul class="text-white">
@@ -172,8 +181,6 @@
             Charger un fichier
           </button>
         </a>
-        <p>Du {{ start_date }}</p>
-        <p>Jusqu'à {{ end_date }}</p>
       </div>
     <div class="flex flex-wrap justify-center mt-12">
         <!-- Première carte -->
