@@ -14,138 +14,7 @@
     <!-- Inclure le thème jQuery UI -->
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
-    
-    <style>
 
-        .sidebar {
-            background-color: #28B4AC; /* Couleur de fond de la barre de navigation */
-            width: calc(100vw /5); /* Occupe 1/6 de la largeur de la page */
-            height: 100vh; /* Hauteur pour couvrir toute la hauteur de l'écran */
-            position: fixed; /* Fixer la barre de navigation */
-            left: 0; /* Aligner à gauche */
-            top: 0; /* Aligner en haut */
-            padding-top: 50px;  
-        }
-
-        .dates {
-    position: absolute;
-    top: 20px; /* Ajouté px pour spécifier l'unité */
-    left: 40%;
-    z-index: 1000; /* Ensure logo appears above other content */
-    height: auto; 
-    color: #2766A6;
-    display: flex;
-    justify-content: space-between; /* Pour ajouter un espace entre les deux éléments */
-    gap: 100px; /* Ajustez cette valeur pour augmenter ou diminuer l'espace entre les paragraphes */
-    font-weight: bold;
-    font-size: 24px;
-}
-
-.dates p {
-    margin: 0; /* Supprime les marges par défaut des paragraphes */
-}
-
-
-
-
-        .sidebar ul {
-            list-style-type: none;
-            padding-left: 20px;
-        }
-
-        .sidebar li {
-            margin-bottom: 10px;
-        }
-
-        .card {
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            padding: 15px;
-            background-color: #fff;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            margin-bottom: 20px;
-        }
-
-        table {
-            border-collapse: collapse;
-            width: 100%;
-        }
-        
-        th, td {
-            border: 1px solid #B0E0E6;
-            padding: 8px;
-            text-align: center;
-        }
-        
-        th {
-            background-color: #B0E0E6; /* couleur de fond pour l'en-tête */
-        }
-        .ml-custom {
-            margin-left: 300px; /* Marge personnalisée à gauche */
-        }
-        .sidebar p {
-            color: white; /* Couleur du texte */
-            font-weight: bold; /* Gras */
-            font-size: 25px; /* Taille de la police */
-            margin-top: 5px; /* Marge en haut */
-            margin-bottom: 20px; /* Marge en bas */
-            padding-left: 20px; /* Espacement à gauche */
-            font-family: Arial, sans-serif; /* Famille de police Arial */
-        }
-
-
-        .custom-button {
-            background-color: #28B4AC;
-            color: #ffffff; /* Couleur du texte */
-            font-weight: bold; /* Police en gras */
-            padding: 10px 20px; /* Remplissage */
-            border: none; /* Suppression de la bordure */
-            border-radius: 5px; /* Coins arrondis */
-            transition: background-color 0.3s; /* Transition de la couleur de fond */
-          }
-        
-          /* CSS pour changer la couleur du bouton au survol */
-          .custom-button:hover {
-            background-color: #1F9D88;
-          }
-    
-         
-        
-        .file-button a {
-            display: block;
-            padding: 10px;
-            color: white;
-            text-decoration: none;
-    
-            border-radius: 5px;
-        }
-        
-        .file-button a:hover {
-            background-color: #D8D8D9;
-            color: black;
-        }
-    
-        .delete-button {
-         
-          color: white; /* Couleur du texte */
-          border: none; /* Pas de bordure */
-          padding: 5px 10px; /* Espacement interne */
-          border-radius: 3px; /* Bordures arrondies */
-          cursor: pointer; /* Curseur de la souris */
-      }
-      
-      .delete-button:hover {
-          background-color: #D8D8D9; /* Couleur de fond au survol */
-          color: black;
-      }
-
-    </style>
-
-    <script>
-        {% if message %}
-            alert("{{ message }}");
-        {% endif %}
-    </script>
 </head>
 <body class="bg-gray-100">
     <div class="dates">
@@ -154,30 +23,29 @@
     </div>
     <div class="sidebar">
         <ul class="text-white">
-            {% comment %} <p class="files-heading">Les fichiers </p>
-            {% for file in files %}
-                <li><a href="{% url 'dash' %}?file={{ file.file }}">{{ file.file }}</a></li>
-            {% endfor %} {% endcomment %}
             <p class="files-heading">Les fichiers</p>
             {% for file in files %}
             <li class="file-button">
                 <span style="display: inline-block;">
-                    <a href="{% url 'dash' %}?file={{ file.file }}">
+                    <a href="{% url 'dash' %}?file={{ file.file }}&start_date={{ file.start_date }}&end_date={{ file.end_date }}">
                         <span class="filename">{{ file.file }}</span>
                     </a>
                 </span>
-                <form action="{% url 'delete_file' file_id=file.id %}" method="post" style="display: inline;">
-                    {% csrf_token %}
-                    <button class="delete-button" type="submit"><i class="fas fa-trash"></i></button>
-                </form>
-            </li>
             {% endfor %}
         </ul>
     </div>
     <div class="absolute top-0 right-0 mt-4 mr-4">
         
          <a href="upload">
-          <button type="submit" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded">
+          <button type="submit" style="
+          background-color: #2766A6;
+          transition: background-color 0.3s;
+          margin-right: 5px;
+        "
+        class="text-white font-bold py-2 px-6 rounded"
+        type="submit"
+        onmouseover="this.style.backgroundColor='#3A92C5'"
+        onmouseout="this.style.backgroundColor='#2766A6'">
             Charger un fichier
           </button>
         </a>

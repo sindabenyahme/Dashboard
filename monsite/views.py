@@ -132,7 +132,7 @@ def plot_time_vs_duration_scatter(df):
     # Create layout
     layout = go.Layout(
         title=dict(
-            text="Durée d'appel en fonction du temps",
+            text="Durée des appels en fonction du temps",
             x=0.5  # Set the title's x position to the middle
         ),
         xaxis=dict(title='Temps'),
@@ -250,11 +250,6 @@ def plot_calls_duration_ranges(df):
 
     return graph_html
 
-
-
-
-
-
 def graphe3(data):
     colors = ['#87CEEB', '#00BFFF', '#6495ED', '#B0C4DE', '#B0E0E6']
 
@@ -269,7 +264,7 @@ def graphe3(data):
     'text': 'Pourcentage de chaque motif',
     'font': {
         'size': 20,
-        # 'color': '#0000FF',
+        #'color': '#0000FF',
         'family': 'Arial',
     },
     'x': 0.5,
@@ -283,11 +278,6 @@ def graphe3(data):
 
     return graph_html3
 
-
-
-
-
-
 def creer_tableau_dynamique(df):
     # Supprimer les codes numériques de la colonne 'Point d'appel'
     df_copy = df.copy()
@@ -298,10 +288,6 @@ def creer_tableau_dynamique(df):
     tableau_dynamique.columns = ['Resident', 'NB']
 
     return tableau_dynamique
-
-
-
-
 
 def plot_calls_per_sex(df):
     # Assuming df has 'Sex' column
@@ -339,12 +325,6 @@ def plot_calls_per_sex(df):
 
     return graph_html
 
-
-
-
-
-
-
 def dash(request):
     files = File.objects.all()  
     excel_data = []
@@ -366,7 +346,6 @@ def dash(request):
         for file in files:
             file.file = str(file.file).split('/')[-1] if '/' in str(file.file) else str(file.file).split('\\')[-1]
 
-       
         combined_df = pd.concat(excel_data, ignore_index=True)
         combined_df['Day'] = combined_df['Date'].apply(lambda x: re.search(r'(\d+\s\w+)', x).group(0))
         combined_df['Time'] = combined_df['Date'].apply(lambda x: re.search(r'à\s(\d+:\d+)', x).group(1))

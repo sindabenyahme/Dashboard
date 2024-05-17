@@ -18,65 +18,7 @@
     <!-- Inclure le thème jQuery UI -->
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <style>
-
-
-      .custom-button {
-        background-color: #28B4AC;
-        color: #ffffff; /* Couleur du texte */
-        font-weight: bold; /* Police en gras */
-        padding: 10px 20px; /* Remplissage */
-        border: none; /* Suppression de la bordure */
-        border-radius: 5px; /* Coins arrondis */
-        transition: background-color 0.3s; /* Transition de la couleur de fond */
-      }
-
-    
-      /* CSS pour changer la couleur du bouton au survol */
-      .custom-button:hover {
-        background-color: #1F9D88;
-      }
-
-     
-    
-    .file-button a {
-        display: block;
-        padding: 10px;
-        color: white;
-        text-decoration: none;
-
-        border-radius: 5px;
-    }
-    
-    .file-button a:hover {
-        background-color: #D8D8D9;
-        color: black;
-    }
-
-    .delete-button {
-     
-      color: white; /* Couleur du texte */
-      border: none; /* Pas de bordure */
-      padding: 5px 10px; /* Espacement interne */
-      border-radius: 3px; /* Bordures arrondies */
-      cursor: pointer; /* Curseur de la souris */
-  }
   
-  .delete-button:hover {
-      background-color: #D8D8D9; /* Couleur de fond au survol */
-      color: black;
-  }
-    
-    </style>
-
-
-
-
-    <script>
-        {% if message %}
-            alert("{{ message }}");
-        {% endif %}
-    </script>
 </head>
 <body class="bg-gray-100 flex items-center justify-center h-screen relative">
   <div class="sidebar">
@@ -134,14 +76,14 @@
                   
                 <button
                   style="
-                    background-color: #28b4ac;
+                    background-color: #2766A6;
                     transition: background-color 0.3s;
                     margin-right: 5px;
                   "
                   class="text-white font-bold py-2 px-6 rounded"
                   type="submit"
-                  onmouseover="this.style.backgroundColor='#1F9D88'"
-                  onmouseout="this.style.backgroundColor='#28B4AC'"
+                  onmouseover="this.style.backgroundColor='#3A92C5'"
+                  onmouseout="this.style.backgroundColor='#2766A6'"
                 >
                   Charger
                 </button>
