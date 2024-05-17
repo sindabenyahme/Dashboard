@@ -34,7 +34,7 @@ body {
     width: 0;
     height: 0;
     border-left: 35vw solid transparent; /* Adjust size of the triangle */
-    border-bottom: 35vw solid #28B4AC; /* Set color of the triangle */
+    border-bottom: 35vw solid #2766A6; /* Set color of the triangle */
     transform: rotate(270deg); /* Rotate the triangle by 270 degrees */
   }
 
@@ -118,7 +118,7 @@ body {
   }
 
   .submit-button {
-    background-color: #28B4AC; /* Set background color */
+    background-color: #2766A6; /* Set background color */
     color: white; /* Set text color */
     padding: 10px 20px; /* Add padding */
     font-size: 1em; /* Set font size */
@@ -128,7 +128,7 @@ body {
   }
   
   .submit-button:hover {
-    background-color: #1e9487; /* Change background color on hover */
+    background-color: #3A92C5; /* Change background color on hover */
   }
   
 
@@ -146,7 +146,7 @@ body {
       width: 30px;
       height: 30px;
       border-left: 20px solid transparent; /* Adjust size of the triangle for smaller screens */
-      border-bottom: 20px solid #28B4AC; /* Set color of the triangle for smaller screens */
+      border-bottom: 20px solid #2766A6; /* Set color of the triangle for smaller screens */
     }
   
     h1 {

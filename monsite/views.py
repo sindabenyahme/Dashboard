@@ -132,7 +132,7 @@ def plot_time_vs_duration_scatter(df):
     # Create layout
     layout = go.Layout(
         title=dict(
-            text="Durée d'appel en fonction du temps",
+            text="Durée des appels en fonction du temps",
             x=0.5  # Set the title's x position to the middle
         ),
         xaxis=dict(title='Temps'),

@@ -1,5 +1,5 @@
 .sidebar {
-    background-color: #28B4AC; /* Couleur de fond de la barre de navigation */
+    background-color: #2766A6; /* Couleur de fond de la barre de navigation */
     width: calc(100vw / 5); /* Occupe 1/6 de la largeur de la page */
     height: 100vh; /* Hauteur pour couvrir toute la hauteur de l'écran */
     position: fixed; /* Fixer la barre de navigation */
@@ -47,7 +47,7 @@
 
 
 .custom-button {
-        background-color: #28B4AC;
+        background-color: #2766A6;
         color: #ffffff; /* Couleur du texte */
         font-weight: bold; /* Police en gras */
         padding: 10px 20px; /* Remplissage */
@@ -58,7 +58,7 @@
     
       /* CSS pour changer la couleur du bouton au survol */
       .custom-button:hover {
-        background-color: #1F9D88;
+        background-color: #3A92C5;
       }
 
      
@@ -76,3 +76,48 @@
         color: black;
     }
     
+    .custom-button {
+        background-color: #2766A6;
+        color: #ffffff; /* Couleur du texte */
+        font-weight: bold; /* Police en gras */
+        padding: 10px 20px; /* Remplissage */
+        border: none; /* Suppression de la bordure */
+        border-radius: 5px; /* Coins arrondis */
+        transition: background-color 0.3s; /* Transition de la couleur de fond */
+      }
+
+    
+      /* CSS pour changer la couleur du bouton au survol */
+      .custom-button:hover {
+        background-color: #3A92C5;
+      }
+
+     
+    
+    .file-button a {
+        display: block;
+        padding: 10px;
+        color: white;
+        text-decoration: none;
+
+        border-radius: 5px;
+    }
+    
+    .file-button a:hover {
+        background-color: #3A92C5;
+        color: black;
+    }
+
+    .delete-button {
+     
+      color: white; /* Couleur du texte */
+      border: none; /* Pas de bordure */
+      padding: 5px 10px; /* Espacement interne */
+      border-radius: 3px; /* Bordures arrondies */
+      cursor: pointer; /* Curseur de la souris */
+  }
+  
+  .delete-button:hover {
+      background-color: #3A92C5; /* Couleur de fond au survol */
+      color: black;
+  }

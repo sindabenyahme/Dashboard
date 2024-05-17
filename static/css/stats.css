@@ -1,13 +1,4 @@
 
-        .sidebar {
-            background-color: #28B4AC; /* Couleur de fond de la barre de navigation */
-            width: 200px; /* Largeur de la barre de navigation */
-            height: 100%; /* Hauteur pour couvrir toute la hauteur de l'écran */
-            position: fixed; /* Fixer la barre de navigation */
-            left: 0; /* Aligner à gauche */
-            top: 0; /* Aligner en haut */
-            padding-top: 20px; /* Espacement en haut */
-        }
 
         .sidebar ul {
             list-style-type: none;
@@ -63,3 +54,117 @@
             cursor: pointer;
           }
         
+          .logo-container {
+            position: absolute;
+            top: 0;
+            left: 10%;
+            transform: translateX(-50%);
+            z-index: 1000; /* Ensure logo appears above other content */
+        }
+
+        /* Adjust width/height as needed */
+        .logo-container img {
+            width: 200px; /* Adjust width as needed */
+            height: auto; /* Maintain aspect ratio */
+        }
+        .sidebar {
+            background-color: #2766A6; /* Couleur de fond de la barre de navigation */
+            width: calc(100vw /5); /* Occupe 1/6 de la largeur de la page */
+            height: 100vh; /* Hauteur pour couvrir toute la hauteur de l'écran */
+            position: fixed; /* Fixer la barre de navigation */
+            left: 0; /* Aligner à gauche */
+            top: 0; /* Aligner en haut */
+            padding-top: 50px;
+            
+        }
+
+        .sidebar ul {
+            list-style-type: none;
+            padding-left: 20px;
+        }
+
+        .sidebar li {
+            margin-bottom: 10px;
+        }
+
+        .card {
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 15px;
+            background-color: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        
+        th, td {
+            border: 1px solid #B0E0E6;
+            padding: 8px;
+            text-align: center;
+        }
+        
+        th {
+            background-color: #B0E0E6; /* couleur de fond pour l'en-tête */
+        }
+        .ml-custom {
+            margin-left: 300px; /* Marge personnalisée à gauche */
+        }
+        .sidebar p {
+            color: white; /* Couleur du texte */
+            font-weight: bold; /* Gras */
+            font-size: 25px; /* Taille de la police */
+           /* Marge en haut */
+            margin-bottom: 20px; /* Marge en bas */
+            padding-left: 50px; /* Espacement à gauche */
+            font-family: Arial, sans-serif; /* Famille de police Arial */
+        }
+
+
+        .custom-button {
+            background-color: #2766A6;
+            color: #ffffff; /* Couleur du texte */
+            font-weight: bold; /* Police en gras */
+            padding: 10px 20px; /* Remplissage */
+            border: none; /* Suppression de la bordure */
+            border-radius: 5px; /* Coins arrondis */
+            transition: background-color 0.3s; /* Transition de la couleur de fond */
+          }
+        
+          /* CSS pour changer la couleur du bouton au survol */
+          .custom-button:hover {
+            background-color: #3A92C5;
+          }
+    
+         
+        
+        .file-button a {
+            display: block;
+            padding: 10px;
+            color: white;
+            text-decoration: none;
+    
+            border-radius: 5px;
+        }
+        
+        .file-button a:hover {
+            background-color: #3A92C5;
+            color: black;
+        }
+    
+        .delete-button {
+         
+          color: white; /* Couleur du texte */
+          border: none; /* Pas de bordure */
+          padding: 5px 10px; /* Espacement interne */
+          border-radius: 3px; /* Bordures arrondies */
+          cursor: pointer; /* Curseur de la souris */
+      }
+      
+      .delete-button:hover {
+          background-color: #3A92C5; /* Couleur de fond au survol */
+          color: black;
+      }
