@@ -158,6 +158,11 @@ def plot_calls_per_day_and_time(df):
     # Group the data by day and time category and count the number of calls
     calls_per_day_time = df.groupby(['Day', 'Time_Category']).size().unstack(fill_value=0)
 
+    # Calculate total calls for Jour, Nuit, and overall
+    total_jour = calls_per_day_time['Jour'].sum()
+    total_nuit = calls_per_day_time['Nuit'].sum()
+    total_calls = total_jour + total_nuit
+
     # Create traces for Jour and Nuit
     trace_jour = go.Bar(
         x=calls_per_day_time.index,
@@ -181,7 +186,33 @@ def plot_calls_per_day_and_time(df):
         title='Nombre des appels par Jour et Nuit',
         xaxis=dict(title='Jour'),
         yaxis=dict(title='Nombre des appels'),
-        title_x=0.5  # Positionne le titre au centre du graphe
+        title_x=0.5,  # Positionne le titre au centre du graphe
+        annotations=[
+            dict(
+                xref='paper', yref='paper',
+                x=0.25, y=-0.22,
+                xanchor='right', yanchor='top',
+                text=f'Total Appels Jour: <b>{total_jour}</b>',
+                showarrow=False,
+                font=dict(size=12 , color='black')
+            ),
+            dict(
+                xref='paper', yref='paper',
+                x=0.6, y=-0.22,
+                xanchor='center', yanchor='top',
+                text=f'Total Appels Nuit: <b>{total_nuit}</b>',
+                showarrow=False,
+                font=dict(size=12)
+            ),
+            dict(
+                xref='paper', yref='paper',
+                x=0.9, y=-0.22,
+                xanchor='left', yanchor='top',
+                text=f'Total Général: <b>{total_calls}</b>',
+                showarrow=False,
+                font=dict(size=12)
+            )
+        ]
     )
 
     # Create figure
@@ -197,6 +228,8 @@ def plot_calls_per_day_and_time(df):
     graph_html = fig.to_html(full_html=False)
 
     return graph_html
+
+
 
 
 
@@ -251,6 +284,11 @@ def plot_calls_duration_ranges(df):
 
     return graph_html
 
+
+
+
+
+
 def graphe3(data):
     colors = ['#87CEEB', '#00BFFF', '#6495ED', '#B0C4DE', '#B0E0E6']
 
@@ -265,7 +303,7 @@ def graphe3(data):
     'text': 'Pourcentage de chaque motif',
     'font': {
         'size': 20,
-        #'color': '#0000FF',
+        # 'color': '#0000FF',
         'family': 'Arial',
     },
     'x': 0.5,
@@ -279,6 +317,11 @@ def graphe3(data):
 
     return graph_html3
 
+
+
+
+
+
 def creer_tableau_dynamique(df):
     # Supprimer les codes numériques de la colonne 'Point d'appel'
     df_copy = df.copy()
@@ -289,6 +332,10 @@ def creer_tableau_dynamique(df):
     tableau_dynamique.columns = ['Resident', 'NB']
 
     return tableau_dynamique
+
+
+
+
 
 def plot_calls_per_sex(df):
     # Assuming df has 'Sex' column
@@ -326,6 +373,12 @@ def plot_calls_per_sex(df):
 
     return graph_html
 
+
+
+
+
+
+
 def dash(request):
     files = File.objects.all()  
     excel_data = []
@@ -347,6 +400,7 @@ def dash(request):
         for file in files:
             file.file = str(file.file).split('/')[-1] if '/' in str(file.file) else str(file.file).split('\\')[-1]
 
+       
         combined_df = pd.concat(excel_data, ignore_index=True)
         combined_df['Day'] = combined_df['Date'].apply(lambda x: re.search(r'(\d+\s\w+)', x).group(0))
         combined_df['Time'] = combined_df['Date'].apply(lambda x: re.search(r'à\s(\d+:\d+)', x).group(1))
