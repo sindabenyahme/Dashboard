@@ -157,6 +157,11 @@ def plot_calls_per_day_and_time(df):
     # Group the data by day and time category and count the number of calls
     calls_per_day_time = df.groupby(['Day', 'Time_Category']).size().unstack(fill_value=0)
 
+    # Calculate total calls for Jour, Nuit, and overall
+    total_jour = calls_per_day_time['Jour'].sum()
+    total_nuit = calls_per_day_time['Nuit'].sum()
+    total_calls = total_jour + total_nuit
+
     # Create traces for Jour and Nuit
     trace_jour = go.Bar(
         x=calls_per_day_time.index,
@@ -180,7 +185,33 @@ def plot_calls_per_day_and_time(df):
         title='Nombre des appels par Jour et Nuit',
         xaxis=dict(title='Jour'),
         yaxis=dict(title='Nombre des appels'),
-        title_x=0.5  # Positionne le titre au centre du graphe
+        title_x=0.5,  # Positionne le titre au centre du graphe
+        annotations=[
+            dict(
+                xref='paper', yref='paper',
+                x=0.25, y=-0.22,
+                xanchor='right', yanchor='top',
+                text=f'Total Appels Jour: <b>{total_jour}</b>',
+                showarrow=False,
+                font=dict(size=12 , color='black')
+            ),
+            dict(
+                xref='paper', yref='paper',
+                x=0.6, y=-0.22,
+                xanchor='center', yanchor='top',
+                text=f'Total Appels Nuit: <b>{total_nuit}</b>',
+                showarrow=False,
+                font=dict(size=12)
+            ),
+            dict(
+                xref='paper', yref='paper',
+                x=0.9, y=-0.22,
+                xanchor='left', yanchor='top',
+                text=f'Total Général: <b>{total_calls}</b>',
+                showarrow=False,
+                font=dict(size=12)
+            )
+        ]
     )
 
     # Create figure
@@ -196,6 +227,8 @@ def plot_calls_per_day_and_time(df):
     graph_html = fig.to_html(full_html=False)
 
     return graph_html
+
+
 
 
 

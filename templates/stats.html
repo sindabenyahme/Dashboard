@@ -17,13 +17,17 @@
 
 </head>
 <body class="bg-gray-100">
+    <div class="dates">
+        <p>Du : {{ start_date }}</p>
+        <p>Jusqu'à : {{ end_date }}</p>
+    </div>
     <div class="sidebar">
         <ul class="text-white">
             <p class="files-heading">Les fichiers</p>
             {% for file in files %}
             <li class="file-button">
                 <span style="display: inline-block;">
-                    <a href="{% url 'dash' %}?file={{ file.file }}">
+                    <a href="{% url 'dash' %}?file={{ file.file }}&start_date={{ file.start_date }}&end_date={{ file.end_date }}">
                         <span class="filename">{{ file.file }}</span>
                     </a>
                 </span>
@@ -45,8 +49,6 @@
             Charger un fichier
           </button>
         </a>
-        <p>Du {{ start_date }}</p>
-        <p>Jusqu'à {{ end_date }}</p>
       </div>
     <div class="flex flex-wrap justify-center mt-12">
         <!-- Première carte -->

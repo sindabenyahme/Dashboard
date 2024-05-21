@@ -10,6 +10,24 @@
             margin-bottom: 10px;
         }
 
+        .dates {
+            position: absolute;
+            top: 20px; /* Ajouté px pour spécifier l'unité */
+            left: 40%;
+            z-index: 1000; /* Ensure logo appears above other content */
+            height: auto; 
+            color: #2766A6;
+            display: flex;
+            justify-content: space-between; /* Pour ajouter un espace entre les deux éléments */
+            gap: 100px; /* Ajustez cette valeur pour augmenter ou diminuer l'espace entre les paragraphes */
+            font-weight: bold;
+            font-size: 24px;
+        }
+
+        .dates p {
+            margin: 0; /* Supprime les marges par défaut des paragraphes */
+        }
+
         .card {
             width: 35%;
             height:100%; /* Ajustez la largeur en fonction de votre mise en page */
