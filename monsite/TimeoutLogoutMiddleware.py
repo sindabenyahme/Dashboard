@@ -18,7 +18,7 @@ class TimeoutLogoutMiddleware:
                 last_activity_time = timezone.datetime.fromisoformat(last_activity_time_str)
                 # Calculate time elapsed since last activity
                 elapsed_time = timezone.now() - last_activity_time
-                if elapsed_time.total_seconds() > 60*60:  # 60 seconds = 1 minute
+                if elapsed_time.total_seconds() > 60*60*60:  # 60 seconds = 1 minute
                     # Log out user and redirect to login page
                     del request.session['last_activity_time']
                     request.user.logout()

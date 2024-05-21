@@ -10,6 +10,14 @@
             margin-bottom: 10px;
         }
 
+        .savebutton{
+            position: absolute;
+            top: 3%;
+            left: 84%;
+            transform: translateX(-50%);
+            z-index: 1000;
+        }
+
         .dates {
             position: absolute;
             top: 20px; /* Ajouté px pour spécifier l'unité */

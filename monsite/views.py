@@ -7,6 +7,7 @@ from django.contrib.auth import authenticate, login
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import AllowAny
 from django.contrib.auth.decorators import login_required
+from django.http import JsonResponse, HttpResponse
 import pandas as pd
 import matplotlib.pyplot as plt
 from io import BytesIO
@@ -375,3 +376,18 @@ def dash(request):
         return render(request, 'stats.html', {'files': files, 'table_data': [], 'graph_html': '', 
                                                'graph_calls_period_html': '','tableau_dynamique':''})
         
+
+from django.views.decorators.csrf import csrf_exempt
+
+@csrf_exempt
+def download_view(request):
+    if request.method == 'POST':
+        try:
+            content = request.POST.get('content', '')
+            response = HttpResponse(content, content_type='text/html')
+            response['Content-Disposition'] = 'attachment; filename="div_content.html"'
+            return response
+        except Exception as e:
+            return JsonResponse({'error': str(e)}, status=500)
+    else:
+        return JsonResponse({'error': 'Method not allowed'}, status=405)

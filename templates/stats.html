@@ -14,6 +14,9 @@
     <!-- Inclure le thème jQuery UI -->
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
 
 </head>
 <body class="bg-gray-100">
@@ -50,26 +53,27 @@
           </button>
         </a>
       </div>
-    <div class="flex flex-wrap justify-center mt-12">
+      <i id="save-button" class="fas fa-file-download savebutton" title="Télécharger" style="cursor: pointer; font-size: 32px; color: #2766A6;"></i>
+      <div id="graphs-content" class="flex flex-wrap justify-center mt-12">
         <!-- Première carte -->
-        <div class="card mx-4 ml-custom">
+        <div id="graph1" class="card mx-4 ml-custom">
             {{ graph_html | safe }}
         </div>
         
         <!-- Deuxième carte -->
-        <div class="card mx-4">
+        <div id="graph2" class="card mx-4">
             <!-- Contenu de votre deuxième graphe statique ici -->
             {{ graph2_html | safe }}
         </div>
     
         <!-- Troisième carte -->
-        <div class="card mx-4 ml-custom">
+        <div id="graph3" class="card mx-4 ml-custom">
             <!-- Contenu de votre troisième graphe statique ici -->
             {{ graph_html3 | safe }}
         </div>
         
         <!-- Quatrième carte -->
-        <div class="card mx-4" style="overflow-x: auto;text-align: center;">
+        <div id="graph4" class="card mx-4" style="overflow-x: auto;text-align: center;">
             <input type="text" id="searchInput" onkeyup="searchTable()" placeholder="Rechercher par résident...">
             <div style="max-height: 420px; overflow-y: auto;">
                 <table border="1" id="residentTable">
@@ -92,17 +96,42 @@
         </div>
         
         <!-- Cinquième carte -->
-        <div class="card mx-4 ml-custom">
+        <div id="graph5" class="card mx-4 ml-custom">
             {{ graph_html5 | safe }}
         </div>
         
         <!-- Sixième carte -->
-        <div class="card mx-4 ">
+        <div id="graph6" class="card mx-4 ">
             {{ graph_html6 | safe }}
         </div>
     </div>
 
     <script>
+        document.getElementById('save-button').addEventListener('click', function() {
+        var combinedContent = '';
+                // Get the content of the div
+                for (var i = 1; i <= 6; i++) {
+                    var graphContent = document.getElementById('graph' + i).innerHTML;
+                    combinedContent += graphContent + '\n'; // Append each graph content with a newline
+                }
+                
+
+                var blob = new Blob([combinedContent], { type: 'text/html' });
+
+                // Create a link element
+                var link = document.createElement('a');
+                link.href = URL.createObjectURL(blob);
+                link.download = 'graphs.html';
+
+                // Append the link to the body
+                document.body.appendChild(link);
+
+                // Programmatically click the link to trigger the download
+                link.click();
+
+                // Remove the link from the document
+                document.body.removeChild(link);
+            });
         function searchTable() {
             var input, filter, table, tr, td, i, j, txtValue;
             input = document.getElementById("searchInput");
