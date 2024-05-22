@@ -4,10 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard AGIR</title>
+    {% load static %}
     <link rel="icon" href="{% static 'images/logo_agir.png' %}" type="image/x-icon">
     
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    {% load static %}
     <link rel="stylesheet" type="text/css" href="{% static 'css/stats.css' %}">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <!-- Inclure jQuery UI -->
@@ -21,7 +21,7 @@
 
 </head>
 <body class="bg-gray-100">
-    <div class="dates">
+    <div id="dates" class="dates">
         <p>Du : {{ start_date }}</p>
         <p>Jusqu'à : {{ end_date }}</p>
     </div>
@@ -109,7 +109,8 @@
 
     <script>
         document.getElementById('save-button').addEventListener('click', function() {
-        var combinedContent = '';
+        var dates=document.getElementById('dates').innerHTML
+        var combinedContent = dates;
                 // Get the content of the div
                 for (var i = 1; i <= 6; i++) {
                     var graphContent = document.getElementById('graph' + i).innerHTML;
