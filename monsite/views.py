@@ -116,6 +116,9 @@ def graphe1(data):
 
 
 
+import pandas as pd
+import plotly.graph_objs as go
+
 def plot_time_vs_duration_scatter(df):
     df['Time'] = pd.to_datetime(df['Time'])
 
@@ -136,7 +139,10 @@ def plot_time_vs_duration_scatter(df):
             text="Durée des appels en fonction du temps",
             x=0.5  # Set the title's x position to the middle
         ),
-        xaxis=dict(title='Temps'),
+        xaxis=dict(
+            title='Temps',
+            tickformat='%H:%M'  # Show only hours and minutes
+        ),
         yaxis=dict(title='Durée')
     )
 
@@ -147,6 +153,7 @@ def plot_time_vs_duration_scatter(df):
     graph_html = fig.to_html(full_html=False)
 
     return graph_html
+
 
 
 
@@ -190,15 +197,15 @@ def plot_calls_per_day_and_time(df):
         annotations=[
             dict(
                 xref='paper', yref='paper',
-                x=0.25, y=-0.22,
+                x=0.25, y=1.08,
                 xanchor='right', yanchor='top',
                 text=f'Total Appels Jour: <b>{total_jour}</b>',
                 showarrow=False,
-                font=dict(size=12 , color='black')
+                font=dict(size=12, color='black')
             ),
             dict(
                 xref='paper', yref='paper',
-                x=0.6, y=-0.22,
+                x=0.5, y=1.08,
                 xanchor='center', yanchor='top',
                 text=f'Total Appels Nuit: <b>{total_nuit}</b>',
                 showarrow=False,
@@ -206,7 +213,7 @@ def plot_calls_per_day_and_time(df):
             ),
             dict(
                 xref='paper', yref='paper',
-                x=0.9, y=-0.22,
+                x=0.95, y=1.08,
                 xanchor='left', yanchor='top',
                 text=f'Total Général: <b>{total_calls}</b>',
                 showarrow=False,
@@ -228,6 +235,7 @@ def plot_calls_per_day_and_time(df):
     graph_html = fig.to_html(full_html=False)
 
     return graph_html
+
 
 
 
@@ -400,17 +408,12 @@ def dash(request):
         for file in files:
             file.file = str(file.file).split('/')[-1] if '/' in str(file.file) else str(file.file).split('\\')[-1]
 
-       
         combined_df = pd.concat(excel_data, ignore_index=True)
         combined_df['Day'] = combined_df['Date'].apply(lambda x: re.search(r'(\d+\s\w+)', x).group(0))
         combined_df['Time'] = combined_df['Date'].apply(lambda x: re.search(r'à\s(\d+:\d+)', x).group(1))
         combined_df['Sex'] = combined_df['Point d\'appel'].apply(extract_sex)
         combined_df['Time_Category'] = combined_df['Time'].apply(categorize_time)
         combined_df['Date'] = pd.to_datetime(combined_df['Date'], format='mixed', errors='coerce')
-        # combined_df['Period'] = combined_df['Date'].apply(lambda x: 'Nuit' if is_night(x.hour) else 'Jour')
-        # calls_per_period = combined_df.groupby('Period').size()
-        # graph_calls_period_html = graphe2(calls_per_period)
-        # graph_calls_period_html = graphe2(combined_df)
 
         calls_per_point_of_call = combined_df['Motif'].value_counts()
         graph_html3 = graphe3(calls_per_point_of_call)
@@ -418,18 +421,36 @@ def dash(request):
         tableau_dynamique = creer_tableau_dynamique(combined_df)
 
         graph_html = plot_calls_per_day_and_time(combined_df)
-        graph2_html=plot_time_vs_duration_scatter(combined_df)
-        graph_html5=plot_calls_duration_ranges(combined_df)
-        graph_html6=plot_calls_per_sex(combined_df)
+        graph2_html = plot_time_vs_duration_scatter(combined_df)
+        graph_html5 = plot_calls_duration_ranges(combined_df)
+        graph_html6 = plot_calls_per_sex(combined_df)
         
-        #graph_calls_period_html = graphe2(excel_data)
 
-        return render(request, 'stats.html', {'start_date' : start_date ,'end_date': end_date ,'files': files,'table_data': '', 'graph_html': graph_html, 'graph2_html': graph2_html, 'graph_calls_period_html': graph_calls_period_html, 
-                                               'graph_html3': graph_html3,'tableau_dynamique':tableau_dynamique,'graph_html5':graph_html5,'graph_html6':graph_html6})
+        return render(request, 'stats.html', {
+            'start_date': start_date,
+            'end_date': end_date,
+            'files': files,
+            'table_data': '', 
+            'graph_html': graph_html,
+            'graph2_html': graph2_html,
+            'graph_calls_period_html': graph_calls_period_html,
+            'graph_html3': graph_html3,
+            'tableau_dynamique': tableau_dynamique,
+            'graph_html5': graph_html5,
+            'graph_html6': graph_html6,
+            
+        })
     else:
-        return render(request, 'stats.html', {'files': files, 'table_data': [], 'graph_html': '', 
-                                               'graph_calls_period_html': '','tableau_dynamique':''})
-        
+        return render(request, 'stats.html', {
+            'files': files,
+            'table_data': [],
+            'graph_html': '', 
+            'graph_calls_period_html': '',
+            'tableau_dynamique': '',
+            
+        })
+
+
 
 from django.views.decorators.csrf import csrf_exempt
 
