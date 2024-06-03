@@ -109,31 +109,27 @@
 
     <script>
         document.getElementById('save-button').addEventListener('click', function() {
-        var dates=document.getElementById('dates').innerHTML
-        var combinedContent = dates;
-                // Get the content of the div
-                for (var i = 1; i <= 6; i++) {
-                    var graphContent = document.getElementById('graph' + i).innerHTML;
-                    combinedContent += graphContent + '\n'; // Append each graph content with a newline
-                }
-                
+    var element = document.createElement('div');
 
-                var blob = new Blob([combinedContent], { type: 'text/html' });
+    var dates = document.getElementById('dates').innerHTML;
+    element.innerHTML += '<div>' + dates + '</div>';
 
-                // Create a link element
-                var link = document.createElement('a');
-                link.href = URL.createObjectURL(blob);
-                link.download = 'graphs.html';
+    for (var i = 1; i <= 6; i++) {
+        var graphContent = document.getElementById('graph' + i).innerHTML;
+        element.innerHTML += '<div style="page-break-after: always; margin-top: 20px;">' + graphContent + '</div>';
+    }
 
-                // Append the link to the body
-                document.body.appendChild(link);
+    var opt = {
+        margin:       1,
+        filename:     'graphs.pdf',
+        image:        { type: 'jpeg', quality: 0.98 },
+        html2canvas:  { scale: 2 },
+        jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
+    };
 
-                // Programmatically click the link to trigger the download
-                link.click();
+    html2pdf().from(element).set(opt).save();
+});
 
-                // Remove the link from the document
-                document.body.removeChild(link);
-            });
         function searchTable() {
             var input, filter, table, tr, td, i, j, txtValue;
             input = document.getElementById("searchInput");
